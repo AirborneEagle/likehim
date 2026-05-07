@@ -44,10 +44,15 @@ class AuthService extends ChangeNotifier {
     // synchronously after `bootstrap()` resolves.
     final initial = _fb.currentUser;
     _currentUser = initial == null ? null : _from(initial);
-    _sub ??= _fb.userChanges().listen((u) {
-      _currentUser = u == null ? null : _from(u);
-      notifyListeners();
-    });
+    _sub ??= _fb.userChanges().listen(
+      (u) {
+        _currentUser = u == null ? null : _from(u);
+        notifyListeners();
+      },
+      onError: (Object e, StackTrace st) {
+        debugPrint('CLAA auth stream error: $e\n$st');
+      },
+    );
     notifyListeners();
   }
 
