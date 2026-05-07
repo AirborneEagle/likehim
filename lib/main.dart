@@ -6,6 +6,11 @@ import 'package:flutter/services.dart';
 import 'app.dart';
 import 'firebase_options.dart';
 
+/// Set to a non-null value if [Firebase.initializeApp] threw on startup.
+/// The app reads this and renders a diagnostic screen in place of the home.
+Object? firebaseInitError;
+StackTrace? firebaseInitStack;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
@@ -13,8 +18,6 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  // Surface uncaught Flutter errors to the JS console so we can see what
-  // breaks on a release web build.
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
     debugPrint('CLAA flutter error: ${details.exceptionAsString()}');
@@ -25,6 +28,8 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   } catch (e, st) {
+    firebaseInitError = e;
+    firebaseInitStack = st;
     debugPrint('CLAA Firebase.initializeApp failed: $e\n$st');
   }
 

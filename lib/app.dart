@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'main.dart' show firebaseInitError;
 import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/splash_screen.dart';
@@ -28,6 +29,13 @@ class _ClaaAppState extends State<ClaaApp> {
   }
 
   Future<void> _bootstrap() async {
+    // If Firebase.initializeApp blew up in main(), there's no point trying
+    // to set up auth. Surface that error directly on screen.
+    if (firebaseInitError != null) {
+      _bootstrapError = firebaseInitError;
+      if (mounted) setState(() => _bootstrapped = true);
+      return;
+    }
     try {
       await _auth.bootstrap();
       final user = _auth.currentUser;
