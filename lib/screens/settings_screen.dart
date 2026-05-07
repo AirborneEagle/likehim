@@ -218,7 +218,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const Divider(height: 1),
                 ListTile(
                   leading: const Icon(Icons.info_outline),
-                  title: const Text('CLAA'),
+                  title: const Text('Liken'),
                   subtitle: const Text('Version 0.1.0 · Built with Flutter'),
                 ),
               ],

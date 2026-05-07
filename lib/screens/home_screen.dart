@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                             size: 18, color: Colors.white),
                       ),
                       const SizedBox(width: 12),
-                      Text('CLAA', style: theme.textTheme.titleLarge),
+                      Text('Liken', style: theme.textTheme.titleLarge),
                     ],
                   ),
                 ),

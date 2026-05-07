@@ -8,14 +8,14 @@ import 'services/assessment_service.dart';
 import 'services/auth_service.dart';
 import 'theme/theme.dart';
 
-class ClaaApp extends StatefulWidget {
-  const ClaaApp({super.key});
+class LikenApp extends StatefulWidget {
+  const LikenApp({super.key});
 
   @override
-  State<ClaaApp> createState() => _ClaaAppState();
+  State<LikenApp> createState() => _LikenAppState();
 }
 
-class _ClaaAppState extends State<ClaaApp> {
+class _LikenAppState extends State<LikenApp> {
   final AuthService _auth = AuthService();
   final AssessmentService _assessments = AssessmentService();
   bool _bootstrapped = false;
@@ -43,7 +43,7 @@ class _ClaaAppState extends State<ClaaApp> {
         await _assessments.bindUser(user.id);
       }
     } catch (e, st) {
-      debugPrint('CLAA bootstrap error: $e\n$st');
+      debugPrint('Liken bootstrap error: $e\n$st');
       _bootstrapError = e;
     }
     if (mounted) {
@@ -57,7 +57,7 @@ class _ClaaAppState extends State<ClaaApp> {
       try {
         await _assessments.bindUser(user.id);
       } catch (e, st) {
-        debugPrint('CLAA assessments.bindUser error: $e\n$st');
+        debugPrint('Liken assessments.bindUser error: $e\n$st');
       }
     }
     if (mounted) setState(() {});
@@ -72,7 +72,7 @@ class _ClaaAppState extends State<ClaaApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CLAA',
+      title: 'Liken',
       debugShowCheckedModeBanner: false,
       theme: buildLightTheme(),
       darkTheme: buildDarkTheme(),
