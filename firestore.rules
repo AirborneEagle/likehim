@@ -1,0 +1,17 @@
+rules_version = '2';
+
+// Each user owns a document at /users/{uid} plus a subcollection of
+// assessments under /users/{uid}/assessments/{doc}. Only the signed-in
+// owner of {uid} can read or write their own data. Anonymous-auth uids
+// are first-class — they're treated identically to email/password uids.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+
+      match /assessments/{doc} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+    }
+  }
+}
