@@ -55,19 +55,14 @@ class HomeScreen extends StatelessWidget {
                   onLongPress: () => _showDevMenu(context),
                   child: Row(
                     children: [
-                      Container(
-                        width: 32,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [scheme.primary, scheme.tertiary],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          'assets/icon/icon_master.png',
+                          width: 32,
+                          height: 32,
+                          fit: BoxFit.cover,
                         ),
-                        child: const Icon(Icons.auto_awesome,
-                            size: 18, color: Colors.white),
                       ),
                       const SizedBox(width: 12),
                       Text('Liken', style: theme.textTheme.titleLarge),
