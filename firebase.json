@@ -5,12 +5,17 @@
   },
   "hosting": {
     "public": "build/web",
+    "cleanUrls": true,
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
     "rewrites": [
+      {
+        "source": "/privacy",
+        "destination": "/privacy.html"
+      },
       {
         "source": "**",
         "destination": "/index.html"

@@ -1,31 +1,37 @@
-# CLAA — Christlike Attribute Activity
+# Liken — a quiet companion for becoming
 
-A quiet, premium-feeling Flutter app for tracking the **Christlike Attribute Activity** from chapter 6 of *Preach My Gospel: A Guide to Sharing the Gospel of Jesus Christ* (2023).
+A Flutter app for the **Christlike Attribute Activity** from chapter 6 of
+*Preach My Gospel: A Guide to Sharing the Gospel of Jesus Christ* (2023).
 
-You take an assessment, rate each statement under each of the ten attributes (Faith, Hope, Charity & Love, Virtue, Integrity, Knowledge, Patience, Humility, Diligence, Obedience) on the 1–5 *Never → Always* scale, and the app remembers it forever. A radar chart shows your current attribute profile; line charts show how each attribute moves over time. Every scripture reference taps through to that verse on [churchofjesuschrist.org](https://www.churchofjesuschrist.org/).
+You take a prayerful self-reflection across ten attributes (Faith, Hope,
+Charity & Love, Virtue, Integrity, Knowledge, Patience, Humility,
+Diligence, Obedience) on the *Never → Always* scale. Liken remembers it
+forever. A radar chart shows your most recent reflection; line charts
+show how each attribute moves over time. Every scripture reference taps
+through to the verse on [churchofjesuschrist.org](https://www.churchofjesuschrist.org/).
 
-> Statements are reproduced verbatim from *Preach My Gospel*, © Intellectual Reserve, Inc. The app is for personal devotional reflection.
+> Statements are reproduced verbatim from *Preach My Gospel*, © Intellectual
+> Reserve, Inc. The app is for personal devotional reflection.
 
 ---
 
 ## Try it right now
 
-A development web server should still be running on:
+🌐 **Live on the web:** <https://claa-49961.web.app>
 
-```
-http://localhost:8765
-```
+That's a real Firebase Hosting deploy of the latest build. Sign in with
+email/password to keep your reflections in step across devices, or tap
+"Try Liken without an account" for an anonymous local-only session.
 
-Open that URL in any browser to see the app.
-
-If the server is no longer up, restart it with:
+A local server may also be running on <http://localhost:8765> serving
+the same `build/web/` artifact. Restart with:
 
 ```bash
 cd C:\Users\tyler\Documents\code\claa\build\web
 python -m http.server 8765
 ```
 
-(rebuild first with `flutter build web --release` if the source changed)
+Rebuild first with `flutter build web --release` if the source changed.
 
 ---
 
@@ -36,86 +42,73 @@ python -m http.server 8765
 | All 10 attributes + statements | ✅ Verbatim from PMG 2023, Ch. 6 |
 | Auth (anonymous + email) | ✅ FirebaseAuth — anon-first, email upgrade preserves uid |
 | Cloud sync | ✅ Firestore — `users/{uid}/assessments/*` with offline persistence |
-| Radar chart of latest assessment | ✅ |
-| Per-attribute line chart over time | ✅ |
-| Scripture deep links | ✅ Open `churchofjesuschrist.org` |
-| Web build | ✅ Tested |
-| Android build | ⏳ Needs Android Studio + Android SDK installed |
-| iOS build | ⏳ Needs a Mac with Xcode (you can't build iOS from Windows) |
-| Play Store / App Store listing | ⏳ Needs your developer accounts |
-
----
-
-## What I did automatically while you were away
-
-1. Cloned the **Flutter SDK 3.41.9 (stable)** to `C:\flutter`
-2. Bootstrapped the **Dart SDK** (downloaded automatically by Flutter)
-3. Generated the Flutter project structure (`flutter create`)
-4. Wrote ~3,000 lines of Dart implementing every screen
-5. Pulled the verbatim CLAA statements from *Preach My Gospel 2023, Chapter 6* on `churchofjesuschrist.org`
-6. Compiled a **release web build** (`build/web/`)
-7. Started a local web server at **http://localhost:8765**
-
-## Things I left for you (because they need *your* identity / payment info)
-
-These each have explicit instructions below.
-
-1. **Firebase project + flutterfire configure** — for cloud sync of assessments across devices
-2. **Android Studio + Android SDK** — required to build the APK
-3. **A Mac with Xcode** — required to build for iOS (cannot be done on Windows)
-4. **Apple Developer account** ($99/yr) and **Google Play Console** ($25 one-time) — for store submission
-5. **App icon + splash assets** — currently using a generic gradient mark; you may want a real designed icon
+| Radar + line charts | ✅ |
+| Scripture deep links | ✅ |
+| **Web release** | ✅ Deployed to <https://claa-49961.web.app> |
+| **App icon family** | ✅ Procedural rosette (see `tools/make_icon.py`) |
+| **Android signing keystore** | ✅ Generated, signing wired in `android/app/build.gradle.kts` |
+| **Android `.aab` build** | ✅ Builds; see `build/app/outputs/bundle/release/` |
+| Android Play Store submission | ⏳ Needs your Play Console account ($25 one-time) |
+| iOS build | ⏳ Cannot build iOS from Windows; needs Mac + Xcode |
+| iOS App Store submission | ⏳ Needs Mac + Apple Developer account ($99/yr) |
 
 ---
 
 ## How to add the global Flutter to your PATH
 
-I cloned Flutter into `C:\flutter`. To use `flutter` and `dart` from any terminal:
+Flutter SDK is at `C:\flutter`. To use `flutter` and `dart` from any
+terminal:
 
 1. Open **System Properties → Environment Variables**
-2. Under **User variables**, edit `Path`
-3. Add a new entry: `C:\flutter\bin`
-4. Restart your terminal
+2. Under **User variables**, edit `Path` and add `C:\flutter\bin`
+3. Restart your terminal; verify with `flutter --version`
 
-Verify with `flutter --version`.
+For Android builds you'll also want these on PATH:
+
+- `C:\Program Files\Microsoft\jdk-17.0.19.10-hotspot\bin` (Java)
+- `C:\Android\sdk\platform-tools` (adb)
+- `C:\Android\sdk\cmdline-tools\latest\bin` (sdkmanager)
+
+And these environment variables:
+
+- `JAVA_HOME = C:\Program Files\Microsoft\jdk-17.0.19.10-hotspot`
+- `ANDROID_HOME = C:\Android\sdk`
 
 ---
 
-## Firebase setup (already done — for reference)
+## Firebase
 
-This project is wired to Firebase project **`claa-49961`** (display name `claa`). The pieces in this repo:
+Wired to project **`claa-49961`**.
 
 - `lib/firebase_options.dart` — generated by `flutterfire configure`
 - `firestore.rules` — per-user data isolation under `/users/{uid}/...`
-- `firebase.json` — points the CLI at `firestore.rules` and the dart configurations
-- `android/app/google-services.json`, `ios/Runner/GoogleService-Info.plist` — platform configs
+- `firebase.json` — points at `firestore.rules`, `firestore.indexes.json`,
+  and `build/web` for hosting
+- `android/app/google-services.json`, `ios/Runner/GoogleService-Info.plist` —
+  platform configs
 
 ### Firestore data layout
 
 ```
-users/{uid}                              — state doc
-  draft: { id, takenAtMs, ratings, note }   (in-flight reflection, null when none)
+users/{uid}                                 — state doc
+  draft: { id, takenAtMs, ratings, note }     (in-flight, null when none)
   focusAttributeId: String?
   focusSetAtMs: int?
   reminderCadenceIdx: 0 (off) | 1 (weekly) | 2 (monthly)
-users/{uid}/assessments/{assessmentId}   — saved reflections
+users/{uid}/assessments/{assessmentId}      — saved reflections
   id, takenAtMs, ratings: Map<questionId,int>, note: String?
 ```
 
-Anonymous users get a stable `uid`. When they upgrade to email/password we use
-`FirebaseAuth.linkWithCredential` so the `uid` is preserved — no data migration
-required. Firestore offline persistence is on by default, so the app keeps
-working offline and writes sync when the network returns.
-
-### Re-deploying rules
+### Common Firebase commands
 
 ```bash
+# Re-deploy security rules
 firebase deploy --only firestore:rules --project=claa-49961
-```
 
-### Re-running flutterfire configure (e.g. when you add iOS bundle id changes)
+# Re-deploy web build to Firebase Hosting
+flutter build web --release && firebase deploy --only hosting --project=claa-49961
 
-```bash
+# Re-run flutterfire configure (after bundle ID changes)
 flutterfire configure --project=claa-49961
 ```
 
@@ -123,26 +116,51 @@ flutterfire configure --project=claa-49961
 
 ## Build for Android
 
-You need:
-
-1. **Android Studio** (installs Android SDK + emulator) — <https://developer.android.com/studio>
-2. **Java JDK 17+** (Android Studio bundles one)
-
-Then:
+Everything is set up. From a fresh terminal:
 
 ```bash
-flutter doctor --android-licenses   # accept licenses
+export JAVA_HOME="/c/Program Files/Microsoft/jdk-17.0.19.10-hotspot"
+export ANDROID_HOME="/c/Android/sdk"
+export PATH="$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:/c/flutter/bin:$PATH"
+
+flutter build appbundle --release   # → build/app/outputs/bundle/release/app-release.aab
 flutter build apk --release         # → build/app/outputs/flutter-apk/app-release.apk
-flutter build appbundle --release   # for Play Store: → build/app/outputs/bundle/release/app-release.aab
 ```
 
-To **publish on Play Store**:
+The `.aab` is what the Play Store wants.
 
-1. Create a [Play Console](https://play.google.com/console/) account ($25 one-time)
-2. Generate a signing keystore (`keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload`)
-3. Create `android/key.properties` with the keystore details
-4. Configure signing in `android/app/build.gradle`
-5. Upload the `.aab` to Play Console, fill out the listing, submit for review
+### Signing
+
+The release signing config in `android/app/build.gradle.kts` reads
+`android/key.properties` (gitignored), which points to a keystore at
+`C:\Users\tyler\.android-keys\liken-upload-keystore.jks`.
+
+The keystore password is stored at
+`C:\Users\tyler\.android-keys\liken-upload-keystore.password.txt`.
+
+> ⚠️ **Back this keystore up.** Once you publish to the Play Store with
+> this key, you cannot change it (unless you opt into Play App Signing
+> with a separate upload key, which Google recommends — see below).
+> Store a copy in your password manager / a backup drive.
+
+### Publishing to Play Store
+
+1. Create a [Play Console](https://play.google.com/console/signup)
+   account ($25 one-time)
+2. Create the app. Suggested settings:
+   - Package name: `com.tylerbarnes.claa` (matches what's already in
+     `android/app/build.gradle.kts` and the Firebase Android app
+     registration; can't change after first publish)
+   - Default language: English (US)
+   - Free, no in-app purchases
+3. **Enable Play App Signing** (Google's recommendation): they hold the
+   real release key, you keep using the upload key from this repo. This
+   means losing your upload keystore is recoverable.
+4. Upload the `.aab` from `build/app/outputs/bundle/release/`
+5. Fill out the listing — copy is pre-written in `store-listing.md`
+6. Privacy policy URL: <https://claa-49961.web.app/privacy>
+   (already deployed; see `web/privacy.html`)
+7. Submit for review (typically 1–3 days)
 
 Detailed walkthrough: <https://docs.flutter.dev/deployment/android>
 
@@ -150,10 +168,13 @@ Detailed walkthrough: <https://docs.flutter.dev/deployment/android>
 
 ## Build for iOS
 
-iOS builds **must** happen on a Mac with Xcode. You cannot build iOS apps on Windows — Apple does not provide their SDK for Windows. Workarounds:
+iOS builds **must** happen on a Mac with Xcode. Apple does not provide
+their SDK for Windows. Options:
 
 - Get a Mac (or Mac mini)
-- Use [Codemagic](https://codemagic.io) or [GitHub Actions with macOS runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) to build iOS in CI
+- Use [Codemagic](https://codemagic.io) or
+  [GitHub Actions macOS runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners)
+  to build iOS in CI from this repo
 
 Once you're on a Mac with Xcode:
 
@@ -161,12 +182,13 @@ Once you're on a Mac with Xcode:
 flutter build ipa --release
 ```
 
-To **publish on the App Store**:
+### Publishing to App Store
 
-1. Create an [Apple Developer account](https://developer.apple.com/programs/) ($99/yr)
-2. Set up an App ID + provisioning profile
+1. [Apple Developer account](https://developer.apple.com/programs/) ($99/yr)
+2. Set up an App ID + provisioning profile in App Store Connect
 3. Use Xcode or `xcrun altool` to upload the `.ipa` to App Store Connect
-4. Fill out the listing in App Store Connect, submit for review
+4. Fill out the listing — copy is pre-written in `store-listing.md`
+5. Submit for review (typically 1–7 days)
 
 Detailed walkthrough: <https://docs.flutter.dev/deployment/ios>
 
@@ -176,46 +198,67 @@ Detailed walkthrough: <https://docs.flutter.dev/deployment/ios>
 
 ```
 lib/
-├── main.dart                 entry point
-├── app.dart                  root widget — bootstraps services, routes auth ↔ home
+├── main.dart                 entry point — initializes Firebase
+├── app.dart                  root widget — splash → auth ↔ home
 ├── data/
 │   └── claa_data.dart        all 10 attributes + every statement, verbatim
+├── firebase_options.dart     generated by flutterfire configure
 ├── models/
 │   ├── attribute.dart
 │   ├── question.dart
-│   └── assessment.dart       handles ratings, attribute averages, completion
+│   └── assessment.dart       ratings, attribute averages, completion
 ├── services/
-│   ├── auth_service.dart     anonymous + email auth (locally-backed)
-│   └── assessment_service.dart  CRUD for assessments + draft persistence
-├── theme/
-│   └── theme.dart            warm parchment / midnight-blue palette, Fraunces + Inter
+│   ├── auth_service.dart     FirebaseAuth (anon → email, link-preserving)
+│   └── assessment_service.dart  Firestore + live snapshots
+├── theme/theme.dart          warm parchment / midnight-blue, Fraunces + Inter
 ├── widgets/
-│   ├── rating_selector.dart        5-step Never→Always selector
-│   ├── attribute_icon.dart         per-attribute Material icon + avatar
+│   ├── rating_selector.dart
+│   ├── attribute_icon.dart
 │   ├── attribute_radar_chart.dart
 │   └── attribute_history_chart.dart
 └── screens/
     ├── splash_screen.dart
-    ├── auth_screen.dart
+    ├── auth_screen.dart       sign-in default, anon as subtle option
     ├── home_screen.dart
-    ├── questionnaire_screen.dart   paginated by attribute, draft auto-saves
-    ├── results_screen.dart         radar + highlights after each save
+    ├── questionnaire_screen.dart   paginated, draft auto-saves
+    ├── results_screen.dart    radar + highlights after each save
     ├── attribute_detail_screen.dart
-    ├── history_screen.dart         every attribute's line chart
+    ├── reflection_finish_screen.dart
+    ├── history_screen.dart
     └── settings_screen.dart
+
+assets/icon/                 1024² master + Android-adaptive foreground
+tools/make_icon.py            procedural icon generator (Pillow)
+firestore.rules               per-user data isolation
+firebase.json                 hosting + firestore + flutter config
+store-listing.md              Play / App Store copy, ready to paste
+web/privacy.html              hosted privacy policy
 ```
 
 ---
 
 ## Design choices
 
-- **Anonymous-first:** new users land in the app with one tap. They can later upgrade to a real account without losing data.
-- **Drafts persist:** if you leave mid-assessment, the home screen invites you to *Resume* exactly where you stopped.
-- **Premium feel:** Material 3, warm parchment in light mode and deep midnight blue in dark mode, Fraunces (serif) for display headings, Inter for body, generous spacing and soft shadows.
-- **Compare snapshots:** the radar chart on the results screen overlays your previous reflection against the current one in a different color.
-- **Scripture chips:** every reference is a tappable chip that opens that exact verse on `churchofjesuschrist.org` in your browser.
-- **Local-first:** the app works fully offline. Cloud sync (Firebase) is purely additive.
+- **Anonymous-first:** new users can tap into the app without an account.
+  Reflections live on Firestore under their anonymous uid and survive
+  the upgrade to email/password (uid is preserved by `linkWithCredential`).
+- **Drafts persist across devices:** the in-flight reflection is stored
+  under `users/{uid}.draft` so leaving one device and continuing on
+  another picks up exactly where you stopped.
+- **Premium feel:** Material 3, warm parchment in light mode and deep
+  midnight blue in dark mode, Fraunces (serif) for display headings,
+  Inter for body, generous spacing and soft shadows.
+- **Compare reflections:** the radar chart on the results screen overlays
+  your previous reflection against the current one.
+- **Scripture chips:** every reference is a tappable chip that opens
+  the exact verse on `churchofjesuschrist.org` in your browser.
+- **No gamification:** no streaks, no badges, no headlining numbers.
+  The point isn't to beat yesterday — it's to notice, to be honest,
+  and to keep coming back.
 
 ## License
 
-The app code is yours. The CLAA statements quoted from *Preach My Gospel* remain © Intellectual Reserve, Inc. and are reproduced for personal devotional reflection. If you publish this on the Play Store / App Store, the listing description should credit *Preach My Gospel* as the source.
+The app code is yours. The Christlike Attribute Activity statements
+quoted from *Preach My Gospel* remain © Intellectual Reserve, Inc. and
+are reproduced for personal devotional reflection. If you publish this,
+the listing description should credit *Preach My Gospel* as the source.
