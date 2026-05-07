@@ -16,12 +16,9 @@ dependencies:
   shared_preferences: ^2.3.2
   intl: ^0.19.0
   uuid: ^4.5.1
-  # Firebase deps are commented out until you complete the Firebase setup
-  # described in README.md (run `flutterfire configure`). Once configured,
-  # uncomment these lines and run `flutter pub get`.
-  # firebase_core: ^3.6.0
-  # firebase_auth: ^5.3.1
-  # cloud_firestore: ^5.4.4
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.4
 
 dev_dependencies:
   flutter_test:

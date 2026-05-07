@@ -110,7 +110,7 @@ class AttributeDetailScreen extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                            'Sitting with ${attribute.shortName}.'),
+                            'Focusing on ${attribute.shortName}.'),
                       ),
                     );
                   }
@@ -253,7 +253,7 @@ class _FocusToggle extends StatelessWidget {
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                'You\'re sitting with this attribute.',
+                'This is your current focus.',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: scheme.onSurface,
                   fontWeight: FontWeight.w600,
@@ -273,7 +273,7 @@ class _FocusToggle extends StatelessWidget {
       child: OutlinedButton.icon(
         onPressed: onSet,
         icon: Icon(Icons.center_focus_strong_outlined, color: color),
-        label: Text('Sit with this attribute',
+        label: Text('Focus on this attribute',
             style: TextStyle(color: scheme.onSurface)),
         style: OutlinedButton.styleFrom(
           side: BorderSide(color: color.withValues(alpha: 0.5)),

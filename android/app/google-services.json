@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1048855205536",
+    "project_id": "claa-49961",
+    "storage_bucket": "claa-49961.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048855205536:android:6029896bb23ff3c87adbc5",
+        "android_client_info": {
+          "package_name": "com.example.christlike_attribute_activity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048855205536-tv3g84cueqgkgosr6fgq1f1sc91mighl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBznOF9A33qjo1JHEbJQZvqHw1u0_OITo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048855205536-i3o6inloupbfebdedmp5unfqm69djhii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048855205536:android:0f442dd2ed2f61f57adbc5",
+        "android_client_info": {
+          "package_name": "com.tylerbarnes.claa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048855205536-tv3g84cueqgkgosr6fgq1f1sc91mighl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBznOF9A33qjo1JHEbJQZvqHw1u0_OITo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048855205536-i3o6inloupbfebdedmp5unfqm69djhii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

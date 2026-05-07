@@ -489,8 +489,10 @@ class _PrimaryActionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
+    // Warm "sunrise" gradient — terracotta deepening toward warm amber-brown.
+    // Sits warmer than the cool primary blue; supports white text comfortably.
     return Material(
-      color: scheme.primary,
+      color: scheme.tertiary,
       borderRadius: BorderRadius.circular(24),
       elevation: 0,
       child: InkWell(
@@ -501,11 +503,13 @@ class _PrimaryActionCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
             gradient: LinearGradient(
               colors: [
-                scheme.primary,
-                Color.lerp(scheme.primary, scheme.tertiary, 0.45)!,
+                scheme.secondary, // warm gold (top-left)
+                scheme.tertiary, // terracotta (mid)
+                Color.lerp(scheme.tertiary, Colors.black, 0.18)!, // deeper
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
+              stops: const [0.0, 0.55, 1.0],
             ),
           ),
           padding: const EdgeInsets.fromLTRB(24, 22, 24, 22),
@@ -518,14 +522,14 @@ class _PrimaryActionCard extends StatelessWidget {
                     Text(
                       hasLatest ? 'Reflect again' : 'Begin reflecting',
                       style: theme.textTheme.titleLarge?.copyWith(
-                        color: scheme.onPrimary,
+                        color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       'About 8–10 quiet minutes',
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: scheme.onPrimary.withValues(alpha: 0.85),
+                        color: Colors.white.withValues(alpha: 0.9),
                       ),
                     ),
                   ],
@@ -536,11 +540,11 @@ class _PrimaryActionCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.16),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Icon(Icons.arrow_forward_rounded,
-                    color: scheme.onPrimary),
+                child: const Icon(Icons.arrow_forward_rounded,
+                    color: Colors.white),
               ),
             ],
           ),
@@ -703,7 +707,7 @@ class _FocusCard extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'SITTING WITH',
+                    'YOUR FOCUS',
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: color,
                       letterSpacing: 1.2,

@@ -135,11 +135,11 @@ class _ReflectionFinishScreenState extends State<ReflectionFinishScreen> {
             ),
           ),
           const SizedBox(height: 32),
-          Text('Sit with one this week',
+          Text('Choose one to focus on',
               style: theme.textTheme.headlineSmall),
           const SizedBox(height: 4),
           Text(
-            'Pick an attribute to keep close — in thought, scripture, and small acts. You can change it anytime.',
+            'Pick one attribute to keep in mind this week — to read about, pray about, and look for chances to live. You can change it anytime.',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: scheme.onSurfaceVariant,
               height: 1.5,

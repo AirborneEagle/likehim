@@ -25,17 +25,19 @@ class AppPalette {
   static const Color surfaceLightAlt = Color(0xFFF3ECDC);
   static const Color outlineLight = Color(0xFFE5DCC4);
 
-  // Surfaces — warm dark (firelight)
-  static const Color bgDark = Color(0xFF1A1612);
-  static const Color surfaceDark = Color(0xFF231E18);
-  static const Color surfaceDarkAlt = Color(0xFF2C2620);
-  static const Color outlineDark = Color(0xFF3A3128);
+  // Surfaces — warm dark (firelight). Browner / amber undertones than before
+  // so even at night the app reads as "warm room with a single lit candle"
+  // rather than "cold midnight blue."
+  static const Color bgDark = Color(0xFF211912);
+  static const Color surfaceDark = Color(0xFF2C2218);
+  static const Color surfaceDarkAlt = Color(0xFF362A1F);
+  static const Color outlineDark = Color(0xFF483828);
 
   // Text — warm undertones, never blue-grey
   static const Color onLight = Color(0xFF2A2620);
   static const Color onLightMuted = Color(0xFF6E6452);
-  static const Color onDark = Color(0xFFF1EADC);
-  static const Color onDarkMuted = Color(0xFFA89E8B);
+  static const Color onDark = Color(0xFFF3EBDA);
+  static const Color onDarkMuted = Color(0xFFB6A88F);
 }
 
 ThemeData buildLightTheme() {
