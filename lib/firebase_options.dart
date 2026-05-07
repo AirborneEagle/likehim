@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBznOF9A33qjo1JHEbJQZvqHw1u0_OITo4',
-    appId: '1:1048855205536:android:0f442dd2ed2f61f57adbc5',
+    appId: '1:1048855205536:android:ca6877dcd0bcb0db7adbc5',
     messagingSenderId: '1048855205536',
     projectId: 'claa-49961',
     storageBucket: 'claa-49961.firebasestorage.app',
@@ -66,11 +66,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBUSPsYFuMwC2MiZH7c81Amc9Xg9p9ik8c',
-    appId: '1:1048855205536:ios:a4f0c93fbe0dcf377adbc5',
+    appId: '1:1048855205536:ios:fc11e98518b743fd7adbc5',
     messagingSenderId: '1048855205536',
     projectId: 'claa-49961',
     storageBucket: 'claa-49961.firebasestorage.app',
-    iosClientId: '1048855205536-aufb1963ems2vf90n9uvl9hn1ravo9dh.apps.googleusercontent.com',
-    iosBundleId: 'com.tylerbarnes.claa',
+    iosClientId: '1048855205536-i4oudu50igr6cgnkt5nul3154sj1e78l.apps.googleusercontent.com',
+    iosBundleId: 'dev.airborneeagle.liken',
   );
+
 }

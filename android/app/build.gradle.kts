@@ -21,7 +21,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.tylerbarnes.claa"
+    namespace = "dev.airborneeagle.liken"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -35,9 +35,8 @@ android {
     }
 
     defaultConfig {
-        // Bundle ID is permanent for the Play Store listing — leaving as
-        // com.tylerbarnes.claa (matches the Firebase-registered Android app).
-        applicationId = "com.tylerbarnes.claa"
+        // Bundle ID is permanent for the Play Store listing.
+        applicationId = "dev.airborneeagle.liken"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

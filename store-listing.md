@@ -181,7 +181,7 @@ third parties for advertising.
 
 ## Where it lives
 Your data is stored in Google Cloud Firestore under a Firebase project
-operated by the developer (Tyler Barnes). Access is restricted to your
+operated by the developer (Tyler Christensen). Access is restricted to your
 account by Firestore security rules.
 
 ## What we share

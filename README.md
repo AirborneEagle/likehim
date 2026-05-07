@@ -148,7 +148,7 @@ The keystore password is stored at
 1. Create a [Play Console](https://play.google.com/console/signup)
    account ($25 one-time)
 2. Create the app. Suggested settings:
-   - Package name: `com.tylerbarnes.claa` (matches what's already in
+   - Package name: `dev.airborneeagle.liken` (matches what's in
      `android/app/build.gradle.kts` and the Firebase Android app
      registration; can't change after first publish)
    - Default language: English (US)
