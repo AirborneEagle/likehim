@@ -198,6 +198,94 @@ def crop_to_circle(src: Image.Image) -> Image.Image:
     return out
 
 
+def feature_graphic(width: int = 1024, height: int = 500) -> Image.Image:
+    """
+    Play Store feature graphic — 1024×500. Rosette on the left, wordmark
+    + tagline on the right, deep midnight background with a soft vignette.
+    """
+    img = Image.new("RGB", (width, height), NAVY_DEEP)
+    overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+
+    # Soft vignette
+    vd = ImageDraw.Draw(overlay, "RGBA")
+    for s in range(18):
+        t = s / 18
+        alpha = int(64 * (t ** 1.6))
+        shrink_x = int(width * 0.5 * (1 - t))
+        shrink_y = int(height * 0.5 * (1 - t))
+        x0, y0 = shrink_x, shrink_y
+        x1, y1 = width - 1 - shrink_x, height - 1 - shrink_y
+        if x1 <= x0 or y1 <= y0:
+            continue
+        vd.rectangle(
+            [(x0, y0), (x1, y1)],
+            outline=NAVY_RIM + (alpha,),
+            width=2,
+        )
+    overlay = overlay.filter(ImageFilter.GaussianBlur(radius=24))
+    img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
+    draw = ImageDraw.Draw(img, "RGBA")
+
+    # Rosette on the left, vertically centered. Reuse the same mark.
+    mark_size = int(height * 0.74)
+    mark = draw_star_mark(mark_size, with_background=False, rounded=False)
+    mark_x = int(height * 0.18)
+    mark_y = (height - mark_size) // 2
+    img.paste(mark, (mark_x, mark_y), mark)
+
+    # Wordmark + tagline on the right.
+    # Pillow's default font is small; we draw a stylized wordmark using
+    # large text with the system's serif fallback. (Best effort without
+    # bundling a font file.)
+    try:
+        from PIL import ImageFont
+        font_dir = "C:/Windows/Fonts"
+        title_font = None
+        for candidate in [
+            f"{font_dir}/georgia.ttf",
+            f"{font_dir}/cambria.ttc",
+            f"{font_dir}/times.ttf",
+            f"{font_dir}/segoeui.ttf",
+        ]:
+            if os.path.exists(candidate):
+                try:
+                    title_font = ImageFont.truetype(candidate, 110)
+                    body_font = ImageFont.truetype(candidate, 30)
+                    break
+                except OSError:
+                    continue
+        if title_font is None:
+            title_font = ImageFont.load_default()
+            body_font = title_font
+    except Exception:
+        title_font = ImageFont.load_default()
+        body_font = title_font
+
+    text_x = mark_x + mark_size + int(width * 0.04)
+    text_y_title = int(height * 0.34)
+    text_y_body = int(height * 0.56)
+
+    draw.text(
+        (text_x, text_y_title),
+        "Liken",
+        font=title_font,
+        fill=CREAM + (255,),
+    )
+    draw.text(
+        (text_x, text_y_body),
+        "a quiet companion",
+        font=body_font,
+        fill=GOLD + (255,),
+    )
+    draw.text(
+        (text_x, text_y_body + 40),
+        "for becoming",
+        font=body_font,
+        fill=GOLD + (255,),
+    )
+    return img
+
+
 def main() -> int:
     W = 1024
 
@@ -205,6 +293,10 @@ def main() -> int:
     # for iOS/Android legacy/web)
     master = draw_star_mark(W, with_background=True, rounded=True)
     master.save(ASSETS / "icon_master.png")
+
+    # Play Store feature graphic — 1024x500
+    fg_graphic = feature_graphic(1024, 500)
+    fg_graphic.save(ASSETS / "play_feature_graphic_1024x500.png")
 
     # Foreground only — Android adaptive icon foreground layer. Google
     # guidance: keep critical content within the inner 66% of the canvas so
@@ -230,6 +322,7 @@ def main() -> int:
     print("[ok] wrote", ASSETS / "icon_master.png")
     print("[ok] wrote", ASSETS / "icon_foreground.png")
     print("[ok] wrote", ASSETS / "icon_circle.png")
+    print("[ok] wrote", ASSETS / "play_feature_graphic_1024x500.png")
     print("[ok] wrote", REPO / "web" / "favicon.png")
     return 0
 
