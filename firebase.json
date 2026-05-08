@@ -1,1 +1,102 @@
-{"firestore":{"rules":"firestore.rules","indexes":"firestore.indexes.json"},"hosting":{"public":"build/web","cleanUrls":true,"ignore":["firebase.json","**/.*","**/node_modules/**"],"rewrites":[{"source":"/privacy","destination":"/privacy.html"},{"source":"**","destination":"/index.html"}],"headers":[{"source":"**/*.@(js|css|woff2|wasm)","headers":[{"key":"Cache-Control","value":"public, max-age=31536000, immutable"}]},{"source":"/index.html","headers":[{"key":"Cache-Control","value":"no-cache"}]}]},"flutter":{"platforms":{"android":{"default":{"projectId":"claa-49961","appId":"1:1048855205536:android:ca6877dcd0bcb0db7adbc5","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"claa-49961","configurations":{"android":"1:1048855205536:android:ca6877dcd0bcb0db7adbc5","ios":"1:1048855205536:ios:fc11e98518b743fd7adbc5","web":"1:1048855205536:web:291d32c83c3dbfce7adbc5"}}}}}}
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "hosting": {
+    "public": "build/web",
+    "cleanUrls": true,
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/privacy",
+        "destination": "/privacy.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(png|jpg|jpeg|gif|svg|ico)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=86400" }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css|woff2|wasm)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=300, must-revalidate" }
+        ]
+      },
+      {
+        "source": "/canvaskit/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        ]
+      },
+      {
+        "source": "**/flutter_service_worker.js",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      },
+      {
+        "source": "**/flutter_bootstrap.js",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      },
+      {
+        "source": "**/manifest.json",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      },
+      {
+        "source": "**/version.json",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      },
+      {
+        "source": "**/index.html",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      },
+      {
+        "source": "/",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      }
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "claa-49961",
+          "appId": "1:1048855205536:android:ca6877dcd0bcb0db7adbc5",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "claa-49961",
+          "configurations": {
+            "android": "1:1048855205536:android:ca6877dcd0bcb0db7adbc5",
+            "ios": "1:1048855205536:ios:fc11e98518b743fd7adbc5",
+            "web": "1:1048855205536:web:291d32c83c3dbfce7adbc5"
+          }
+        }
+      }
+    }
+  }
+}
