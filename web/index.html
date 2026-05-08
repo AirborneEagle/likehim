@@ -37,6 +37,36 @@
     }
   </style>
   <link rel="manifest" href="manifest.json">
+
+  <script>
+    // Defensive cleanup: if a stale service worker is registered (left over
+    // from a previous Flutter build that aggressively cached assets), tear
+    // it down and reload once. The current Flutter SW already self-uninstalls
+    // when activated, but this catches users whose browser is stuck on an
+    // older registration that hasn't been refetched yet.
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (regs) {
+        if (regs.length === 0) return;
+        Promise.all(regs.map(function (r) { return r.unregister(); }))
+          .then(function () {
+            return ('caches' in self)
+              ? caches.keys().then(function (keys) {
+                  return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+                })
+              : null;
+          })
+          .then(function () {
+            // Reload once so the freshly-fetched index has no SW interception.
+            // Use sessionStorage to avoid an infinite reload loop if something
+            // goes wrong.
+            if (!sessionStorage.getItem('liken_sw_cleared')) {
+              sessionStorage.setItem('liken_sw_cleared', '1');
+              location.reload();
+            }
+          });
+      });
+    }
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
