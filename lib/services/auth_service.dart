@@ -115,6 +115,52 @@ class AuthService extends ChangeNotifier {
     return _currentUser!;
   }
 
+  /// Sign in with Google. Uses the Firebase Auth OAuth flow directly —
+  /// `signInWithPopup` on web (Firebase's native popup), `signInWithProvider`
+  /// on mobile (Custom Tabs / SFSafariViewController under the hood).
+  ///
+  /// If the current user is anonymous, we LINK the Google credential to that
+  /// user so the same uid (and all their existing reflection data) survives
+  /// the upgrade. If linking fails because the Google account is already
+  /// linked to another Firebase user, we fall back to signing into that
+  /// existing account — losing the anonymous user's draft, which is the
+  /// expected and unavoidable behavior in that case.
+  Future<AppUser> signInWithGoogle() async {
+    final provider = GoogleAuthProvider()
+      ..addScope('email')
+      ..setCustomParameters({'prompt': 'select_account'});
+
+    final current = _fb.currentUser;
+    UserCredential cred;
+    try {
+      if (current != null && current.isAnonymous) {
+        // Anon → Google upgrade. Preserve uid + Firestore data.
+        cred = kIsWeb
+            ? await current.linkWithPopup(provider)
+            : await current.linkWithProvider(provider);
+      } else {
+        cred = kIsWeb
+            ? await _fb.signInWithPopup(provider)
+            : await _fb.signInWithProvider(provider);
+      }
+    } on FirebaseAuthException catch (e) {
+      // 'credential-already-in-use' / 'email-already-in-use': the Google
+      // account is already a Firebase user. Sign in to that user instead.
+      if (e.code == 'credential-already-in-use' ||
+          e.code == 'email-already-in-use') {
+        cred = kIsWeb
+            ? await _fb.signInWithPopup(provider)
+            : await _fb.signInWithProvider(provider);
+      } else {
+        rethrow;
+      }
+    }
+
+    _currentUser = _from(cred.user!);
+    notifyListeners();
+    return _currentUser!;
+  }
+
   Future<void> updateDisplayName(String name) async {
     final user = _fb.currentUser;
     if (user == null) return;

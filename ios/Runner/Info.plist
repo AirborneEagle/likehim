@@ -22,6 +22,22 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<!--
+				Reversed iOS OAuth client ID for Google Sign-In via Firebase
+				Auth. Allows the OAuth flow to redirect back into the app.
+				Source of truth: lib/firebase_options.dart (iosClientId).
+			-->
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1048855205536-i4oudu50igr6cgnkt5nul3154sj1e78l</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
