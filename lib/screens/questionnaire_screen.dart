@@ -114,8 +114,15 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       builder: (context, _) {
         final theme = Theme.of(context);
         final scheme = theme.colorScheme;
-        final draft = widget.assessments.draft ??
-            widget.assessments.startOrResumeDraft();
+        // Treat the assessment service as authoritative. initState already
+        // called startOrResumeDraft() once. If the draft is null here, the
+        // user just finished — finishDraft() cleared it and a notifyListeners
+        // forced this rebuild while the screen is still in the navigation
+        // stack waiting to be popped. Render nothing for that single frame
+        // rather than rehydrating an empty draft (which the home screen
+        // would then surface as a stale "Continue where you left off" card).
+        final draft = widget.assessments.draft;
+        if (draft == null) return const SizedBox.shrink();
         final progress = draft.answeredCount / draft.totalQuestions;
 
         // Back is always allowed — the draft auto-saves on every tap, so
