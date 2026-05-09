@@ -183,6 +183,21 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                         onRate: (qid, rating) {
                           widget.assessments.setRating(qid, rating);
                         },
+                        onSectionCompleted: () {
+                          if (!mounted) return;
+                          if (i == kAttributes.length - 1) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => ReflectionFinishScreen(
+                                  assessments: widget.assessments,
+                                  auth: widget.auth,
+                                ),
+                              ),
+                            );
+                          } else {
+                            _go(i + 1);
+                          }
+                        },
                       );
                     },
                   ),
@@ -349,12 +364,17 @@ class _AttributePage extends StatefulWidget {
   final Attribute attribute;
   final Assessment draft;
   final void Function(String qid, int rating) onRate;
+  /// Fires when a fresh rating completes the last unanswered question of
+  /// this attribute. Parent decides whether that means advancing to the
+  /// next page or pushing the finish screen.
+  final VoidCallback onSectionCompleted;
 
   const _AttributePage({
     super.key,
     required this.attribute,
     required this.draft,
     required this.onRate,
+    required this.onSectionCompleted,
   });
 
   @override
@@ -389,9 +409,27 @@ class _AttributePageState extends State<_AttributePage> {
   void _handleRate(int index, String qid, int rating) {
     final wasUnanswered = !widget.draft.ratings.containsKey(qid);
     widget.onRate(qid, rating);
-    // Only auto-scroll forward when this is a fresh answer — editing an
-    // existing rating shouldn't whisk the user away.
+    // Only react when this is a fresh answer — editing an existing rating
+    // shouldn't whisk the user away.
     if (!wasUnanswered) return;
+
+    // widget.draft is the snapshot from before this rate (the parent has
+    // not rebuilt yet). If exactly one question was unanswered before this
+    // tap and it was this one, this tap just completed the section.
+    final unansweredBefore = widget.attribute.questions
+        .where((q) => !widget.draft.ratings.containsKey(q.id))
+        .length;
+    if (unansweredBefore == 1) {
+      // Long enough for the rating animation to land + a brief beat for the
+      // user to register "yes, that's what I meant" before we slide forward.
+      Future.delayed(const Duration(milliseconds: 700), () {
+        if (!mounted) return;
+        widget.onSectionCompleted();
+      });
+      return;
+    }
+
+    // Otherwise, scroll the next question within this attribute into view.
     final next = index + 1;
     if (next >= widget.attribute.questions.length) return;
     // Brief delay so the rating animation lands and the user sees it before
