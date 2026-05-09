@@ -1,7 +1,7 @@
 name: like_him
 description: "Like Him — a quiet companion for the Christlike Attribute Activity from Preach My Gospel."
 publish_to: 'none'
-version: 0.1.0+1
+version: 1.0.0+1
 
 environment:
   sdk: ^3.5.0
@@ -20,6 +20,8 @@ dependencies:
   firebase_auth: ^5.3.1
   cloud_firestore: ^5.4.4
   flutter_svg: ^2.0.10+1
+  sign_in_with_apple: ^6.1.4
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Like Him — Privacy</title>
+  <meta name="description" content="Privacy policy for Like Him — what we collect, where it lives, and how to delete it.">
+  <meta name="theme-color" content="#FBF6EC">
+
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap">
+
+  <style>
+    :root {
+      --bg: #FBF6EC;
+      --surface: #FFFDF7;
+      --ink: #2A2620;
+      --muted: #6E6452;
+      --outline: #E5DCC4;
+      --primary: #5B7FA8;
+      --accent: #C9A66B;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #211912;
+        --surface: #2C2218;
+        --ink: #F3EBDA;
+        --muted: #B6A88F;
+        --outline: #483828;
+        --primary: #96B4D6;
+        --accent: #E3C589;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 80px 28px 96px;
+    }
+    @media (min-width: 720px) {
+      main { padding: 120px 28px 96px; }
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+    }
+    .back:hover { color: var(--ink); border-bottom-color: var(--outline); }
+
+    h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(36px, 7vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+    }
+    .updated {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 36px;
+      letter-spacing: 0.02em;
+    }
+
+    h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      font-size: 22px;
+      margin: 40px 0 12px;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    p { margin: 12px 0; font-size: 16px; }
+    p.lead {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 19px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+
+    ul { padding-left: 22px; margin: 12px 0; }
+    li { margin: 6px 0; font-size: 16px; }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+    }
+    a:hover { border-bottom-color: var(--primary); }
+
+    strong { color: var(--ink); font-weight: 600; }
+
+    .callout {
+      margin: 24px 0;
+      padding: 16px 20px;
+      border-left: 3px solid var(--accent);
+      background: var(--surface);
+      border-radius: 0 12px 12px 0;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 64px;
+      padding-top: 28px;
+      border-top: 1px solid var(--outline);
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+    footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back" href="/">← Back to Like Him</a>
+
+    <h1>Privacy</h1>
+    <p class="updated">Last updated: 2026-05-09</p>
+
+    <p class="lead">Like Him is a personal devotional reflection app. We collect only what we need to make the app work — and we never sell or share your data with third parties for advertising.</p>
+
+    <h2>What we collect</h2>
+    <ul>
+      <li>An account identifier — a Firebase anonymous user ID, or your email address if you create an account.</li>
+      <li>Your optional display name.</li>
+      <li>Your reflections: ratings (1–5) for each statement, optional notes, timestamps, and the attribute you've chosen as your current focus.</li>
+    </ul>
+
+    <h2>Where it lives</h2>
+    <p>Your data is stored in <strong>Google Cloud Firestore</strong>, under a Firebase project operated by the developer (Tyler Christensen). Access is restricted to your own account by Firestore security rules that disallow any other user from reading or writing your data.</p>
+
+    <h2>What we share</h2>
+    <p><strong>Nothing.</strong> We do not sell your data, and we do not share it with third parties for advertising or analytics. Like Him does not integrate any ad networks, analytics SDKs, or tracking pixels.</p>
+
+    <div class="callout">
+      No streaks, no badges, no headlining numbers — and no ad networks. The app is built to feel like a quiet companion, not a data faucet.
+    </div>
+
+    <h2>How to delete your data</h2>
+    <p>Open Like Him → <em>Settings</em> → <em>Erase all my reflections</em>. This removes everything stored for your account, including your draft, focus attribute, and saved reflections. You can also email <a href="mailto:support@likehim.app">support@likehim.app</a> and we'll delete it manually.</p>
+
+    <h2>Sign-in providers</h2>
+    <p>If you sign in with Google or Apple, those providers share with us only your account identifier and (optionally) your name and email address — nothing else. We never request access to your contacts, calendar, photos, or any other data on those accounts.</p>
+
+    <h2>Children</h2>
+    <p>Like Him is suitable for all ages. We do not knowingly collect data from children under 13 except the minimal account and reflection data described above. If you believe a child has given us data without parental consent, contact us and we will delete it.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>If we change this policy in a way that affects what we collect or how we use it, we will update this page and adjust the "last updated" date above. Continued use of the app after such changes constitutes acceptance of the updated policy.</p>
+
+    <h2>Contact</h2>
+    <p>Questions, requests, or concerns: <a href="mailto:support@likehim.app">support@likehim.app</a>.</p>
+
+    <footer>
+      <a href="/">likehim.app</a>
+    </footer>
+  </main>
+</body>
+</html>

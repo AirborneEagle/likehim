@@ -1,3 +1,6 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -85,6 +88,21 @@ class _AuthScreenState extends State<AuthScreen> {
     });
     try {
       await widget.auth.signInWithGoogle();
+      widget.onSignedIn();
+    } catch (e) {
+      setState(() => _error = _humanize(e));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _continueWithApple() async {
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      await widget.auth.signInWithApple();
       widget.onSignedIn();
     } catch (e) {
       setState(() => _error = _humanize(e));
@@ -184,6 +202,20 @@ class _AuthScreenState extends State<AuthScreen> {
                           }),
                 ),
                 const SizedBox(height: 24),
+
+                // Apple Sign-In on iOS — required by App Store Review
+                // Guideline 4.8 whenever a third-party social login (Google)
+                // is offered. Hidden on Android, where it's not required and
+                // the native sheet isn't available.
+                if (!kIsWeb && Platform.isIOS) ...[
+                  _AppleButton(
+                    onPressed: _busy ? null : _continueWithApple,
+                    label: isCreate
+                        ? 'Sign up with Apple'
+                        : 'Sign in with Apple',
+                  ),
+                  const SizedBox(height: 12),
+                ],
 
                 // Continue with Google
                 _GoogleButton(
@@ -321,6 +353,46 @@ class _AuthScreenState extends State<AuthScreen> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Apple sign-in button. Renders Apple's logomark and follows their human
+/// interface guidelines — black pill on a light scheme, dark pill on dark.
+/// Apple is strict about this button's appearance during App Review.
+class _AppleButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final String label;
+
+  const _AppleButton({required this.onPressed, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final bg = isDark ? Colors.white : Colors.black;
+    final fg = isDark ? Colors.black : Colors.white;
+    return SizedBox(
+      height: 48,
+      child: FilledButton.icon(
+        onPressed: onPressed,
+        icon: Icon(Icons.apple, color: fg, size: 22),
+        label: Text(
+          label,
+          style: theme.textTheme.titleSmall?.copyWith(
+            color: fg,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        style: FilledButton.styleFrom(
+          backgroundColor: bg,
+          foregroundColor: fg,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
         ),
       ),
     );

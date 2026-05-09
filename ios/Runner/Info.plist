@@ -40,6 +40,11 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<!-- The app only uses HTTPS (Firestore + Firebase Auth + Google Sign-In),
+	     which is exempt from the U.S. encryption export requirements.
+	     Setting this to false skips the per-build compliance questionnaire. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

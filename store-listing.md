@@ -67,10 +67,9 @@ have to write it from scratch under deadline pressure.
 
 ## Privacy policy URL
 
-You'll need a hosted privacy policy. The text is in `PRIVACY.md` (TODO —
-I left this for you because the email/contact info needs to be yours).
-Suggested host: a static page at https://likehim.app/privacy or a GitHub
-Pages site. Both stores REQUIRE a public URL.
+**https://likehim.app/privacy** — hosted on the marketing Firebase Hosting
+target, source at [marketing/privacy.html](marketing/privacy.html). Both
+stores require a public URL; this one is canonical.
 
 ## Data safety / App Privacy declaration
 
@@ -125,9 +124,9 @@ TODO at the end of this doc.
 
 ## Support email / website
 
-- **Email:** TBD — you'll want a real address at a domain you control.
-  Both stores require it.
-- **Website:** likehim.app (or wherever — both stores require a URL).
+- **Email:** support@likehim.app (forwards to Tyler's personal inbox)
+- **Website:** https://likehim.app
+- **Privacy policy:** https://likehim.app/privacy
 
 ## Pricing & monetization
 
@@ -143,60 +142,22 @@ both stores accept that).
 
 ## Things still to do before you can submit
 
-These need decisions only you can make:
+Tracked in GitHub issues — see master tracker [#27](https://github.com/AirborneEagle/likehim/issues/27).
 
-1. **Privacy policy URL** — the stores will reject the listing without
-   one. Two-page draft in PRIVACY.md (TODO: I should write a draft of
-   this — see below).
-2. **Feature graphic** for Play (1024×500). Generate or commission.
-3. **Screenshots** at correct resolutions per store.
-4. **Rename the dev menu's "Wipe everything for testing"** to something
-   user-facing like "Erase all my reflections" before submitting.
-5. **App store reviewer notes** — Apple sometimes wants a demo account.
-   Easiest path: anonymous-first means they don't strictly need one; if
-   they ask, the app works without sign-in and you can say so.
-6. **App tracking transparency disclosure** (Apple) — answer the
-   "tracking" questions honestly: Like Him does NOT track users, does NOT
-   share data with third parties for advertising, and does NOT use any
-   of the iOS tracking APIs. The "App Tracking Transparency" prompt is
-   not required.
+A few notes that don't have a natural home in the issues themselves:
 
-## Privacy policy stub (TODO: replace placeholders, host as a public URL)
+1. **App store reviewer notes** — Apple sometimes wants a demo account.
+   We don't need one because of anonymous-first sign-in. The reviewer
+   notes in issue #19 spell this out: "Tap 'Try Like Him without an
+   account' on the auth screen to use the app without creating one."
+2. **App Tracking Transparency** (Apple) — answer the tracking questions
+   honestly: Like Him does NOT track users, does NOT share data with
+   third parties for advertising, and does NOT use any of the iOS
+   tracking APIs. The ATT prompt is not required.
+3. **Sign in with Apple** — required by Apple Review Guideline 4.8 since
+   we offer Google sign-in. Code lands in issue #9; this was the single
+   biggest pre-submission blocker.
 
-```
-# Like Him Privacy Policy
+## Privacy policy
 
-Last updated: <date>
-
-Like Him is a personal devotional reflection app. We collect only what we
-need to make the app work, and we never sell or share your data with
-third parties for advertising.
-
-## What we collect
-- An account identifier (anonymous user id, or your email if you create
-  an account).
-- Your optional display name.
-- The reflections you create — ratings, optional notes, timestamps,
-  and the attribute you've chosen to focus on.
-
-## Where it lives
-Your data is stored in Google Cloud Firestore under a Firebase project
-operated by the developer (Tyler Christensen). Access is restricted to your
-account by Firestore security rules.
-
-## What we share
-Nothing. We do not sell your data, and we do not share it with third
-parties for advertising or analytics. We do not use ad networks.
-
-## How to delete your data
-Open Like Him → Settings → "Erase all my reflections". This removes
-everything we've stored for you. You can also email <support@email>
-and we'll delete it manually.
-
-## Children
-Like Him is suitable for all ages. We do not knowingly collect data from
-children under 13 except as described above.
-
-## Contact
-<support@email>
-```
+Lives at https://likehim.app/privacy. Source: [marketing/privacy.html](marketing/privacy.html).

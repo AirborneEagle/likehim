@@ -1,14 +1,62 @@
-// Captures the two landing-page screenshots by driving a release Flutter web build.
+// Captures phone-shaped screenshots of Like Him by driving a release Flutter
+// web build via Playwright + headless Chromium.
+//
+// Usage:
+//   node tools/screenshots.mjs                  # marketing site shots (414×896 @2x)
+//   node tools/screenshots.mjs --target=ios-69  # App Store 6.9-inch (1320×2868)
+//   node tools/screenshots.mjs --target=ios-65  # App Store 6.5-inch (1284×2778)
+//
+// Prereq: a static server at localhost:8080 serving build/web from `flutter
+// build web --release`.
 
 import { chromium } from 'playwright';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '..');
 
 const URL_ = 'http://localhost:8080/';
-const VIEWPORT = { width: 414, height: 896 };
+
+// Targets keyed by --target=<name>. Each emits a PNG at `viewport × dsf`
+// physical pixels. The `outDir` is created if missing.
+const TARGETS = {
+  marketing: {
+    viewport: { width: 414, height: 896 },
+    dsf: 2,
+    outDir: path.join(repoRoot, 'marketing'),
+    homeName: 'screenshot-home.png',
+    introName: 'screenshot-intro.png',
+  },
+  'ios-69': {
+    // iPhone 17 Pro Max — App Store requires 1320×2868
+    viewport: { width: 440, height: 956 },
+    dsf: 3,
+    outDir: path.join(repoRoot, 'marketing', 'store-screenshots', 'ios-69'),
+    homeName: 'home.png',
+    introName: 'intro.png',
+  },
+  'ios-65': {
+    // iPhone XS Max / 11 Pro Max — App Store requires 1284×2778
+    viewport: { width: 428, height: 926 },
+    dsf: 3,
+    outDir: path.join(repoRoot, 'marketing', 'store-screenshots', 'ios-65'),
+    homeName: 'home.png',
+    introName: 'intro.png',
+  },
+};
+
+const targetName = (process.argv.find((a) => a.startsWith('--target='))?.split('=')[1]) ?? 'marketing';
+const TARGET = TARGETS[targetName];
+if (!TARGET) {
+  console.error(`Unknown target "${targetName}". Valid: ${Object.keys(TARGETS).join(', ')}`);
+  process.exit(2);
+}
+fs.mkdirSync(TARGET.outDir, { recursive: true });
+console.log(`Target: ${targetName} → ${TARGET.viewport.width}×${TARGET.viewport.height} @${TARGET.dsf}x → ${TARGET.outDir}`);
+
+const VIEWPORT = TARGET.viewport;
 
 async function snap(page, name) {
   const p = path.join(__dirname, `_step_${name}.png`);
@@ -64,7 +112,7 @@ async function waitForBox(page, text, { role = null, timeout = 15_000 } = {}) {
     headless: true,
     args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader'],
   });
-  const ctx = await browser.newContext({ viewport: VIEWPORT, deviceScaleFactor: 2 });
+  const ctx = await browser.newContext({ viewport: VIEWPORT, deviceScaleFactor: TARGET.dsf });
   const page = await ctx.newPage();
   page.on('pageerror', (e) => console.log('  [pageerror]', e.message));
 
@@ -89,12 +137,13 @@ async function waitForBox(page, text, { role = null, timeout = 15_000 } = {}) {
 
   // From here on, use pixel coords for everything — Flutter web doesn't reliably
   // repopulate the semantic tree after the post-auth navigation, so we drive
-  // the canvas directly. Coordinates are read from snap captures.
+  // the canvas directly. Coords scale with viewport.
+  const W = VIEWPORT.width;
+  const H = VIEWPORT.height;
+  const cx = W / 2;
 
   // --- Long-press brand mark in the app bar ---
   console.log('→ long-press brand mark (app bar)');
-  // App bar toolbar is 64px tall; brand row sits left-aligned with default 16px.
-  // Center of icon ≈ (32, 32). Press anywhere on the row.
   await page.mouse.move(40, 32);
   await page.mouse.down();
   await page.waitForTimeout(1300);
@@ -102,14 +151,17 @@ async function waitForBox(page, text, { role = null, timeout = 15_000 } = {}) {
   await page.waitForTimeout(900);
   await snap(page, '03_dev_sheet');
 
-  // First: clean up any draft left over from a prior failed run by tapping
-  // "Delete all my reflections" (last item ≈ y=860) → confirm "Delete" button.
+  // Bottom sheet items: each ListTile is ~56–72 tall. From the bottom of the
+  // sheet upwards: Delete (last), Set focus, Seed, Auto-fill (top). Sheet
+  // hugs the bottom of the viewport with a small inset.
+  const tileFromBottom = (n) => H - (36 + n * 76); // 0 = Delete, 1 = Set focus, 2 = Seed, 3 = Auto-fill
+
+  // First: clean up any draft left over from a prior failed run.
   console.log('→ delete all (cleanup)');
-  await page.mouse.click(207, 860);
+  await page.mouse.click(cx, tileFromBottom(0));
   await page.waitForTimeout(800);
-  // Confirm dialog has "Cancel" and "Delete" buttons. "Delete" is the right
-  // FilledButton; on a 414w viewport it sits ≈ (300, 470).
-  await page.mouse.click(300, 470);
+  // Confirm dialog: Delete button on the right, vertically near center.
+  await page.mouse.click(W - 114, H / 2 + 30);
   await page.waitForTimeout(2000);
   await snap(page, '03b_after_clean');
 
@@ -121,27 +173,22 @@ async function waitForBox(page, text, { role = null, timeout = 15_000 } = {}) {
   await page.mouse.up();
   await page.waitForTimeout(900);
 
-  // Seed tile is the SECOND ListTile in the dev sheet — title text ≈ y=700.
   console.log('→ tap Seed historical reflections');
-  await page.mouse.click(207, 700);
-  // Snackbar + radar render + wait out snackbar
+  await page.mouse.click(cx, tileFromBottom(2));
   await page.waitForTimeout(6500);
   await snap(page, '04_after_seed');
 
-  const homePath = path.join(repoRoot, 'marketing', 'screenshot-home.png');
+  const homePath = path.join(TARGET.outDir, TARGET.homeName);
   await page.screenshot({ path: homePath });
   console.log('  saved', homePath);
 
-  // --- Tap "Reflect again" card ---
-  // Order on home (post-seed, no draft): greeting → "Reflect again" gradient
-  // card → "Where you are right now" radar card → attributes list.
-  // Reflect-again card center ≈ y=215.
+  // --- Tap "Reflect again" card on home (sits ~215px below the app bar) ---
   console.log('→ tap Reflect again');
-  await page.mouse.click(207, 215);
+  await page.mouse.click(cx, 215);
   await page.waitForTimeout(2500);
   await snap(page, '05_after_reflect');
 
-  const introPath = path.join(repoRoot, 'marketing', 'screenshot-intro.png');
+  const introPath = path.join(TARGET.outDir, TARGET.introName);
   await page.screenshot({ path: introPath });
   console.log('  saved', introPath);
 

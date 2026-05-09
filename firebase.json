@@ -96,6 +96,12 @@
           "type": 301
         }
       ],
+      "rewrites": [
+        {
+          "source": "/privacy",
+          "destination": "/privacy.html"
+        }
+      ],
       "headers": [
         {
           "source": "**/*.@(png|jpg|jpeg|gif|svg|ico|webp)",

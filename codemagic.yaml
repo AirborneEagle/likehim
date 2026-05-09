@@ -1,0 +1,150 @@
+# Codemagic CI/CD pipeline for Like Him.
+#
+# Two workflows:
+#   - ios-app-store     → builds, signs, uploads to TestFlight
+#   - android-play-store → builds AAB, signs, uploads to Play internal track
+#
+# Both are triggered manually from the Codemagic UI by default. To enable
+# automatic builds on every push to `main`, uncomment the `triggering` block
+# in each workflow.
+#
+# Required environment variables (configure in Codemagic UI → app settings):
+#
+# iOS:
+#   APP_STORE_CONNECT_PRIVATE_KEY      (.p8 file contents from ASC → Users and Access → Keys)
+#   APP_STORE_CONNECT_KEY_IDENTIFIER   (Key ID, ~10 chars)
+#   APP_STORE_CONNECT_ISSUER_ID        (Issuer ID, UUID format)
+#   APP_STORE_APP_ID                   (App's numeric ID from App Store Connect)
+#
+# Android:
+#   CM_KEYSTORE                        (base64 of android/app/likehim-upload-keystore.jks)
+#   CM_KEYSTORE_PASSWORD               (storePassword from key.properties)
+#   CM_KEY_ALIAS                       (keyAlias from key.properties)
+#   CM_KEY_PASSWORD                    (keyPassword from key.properties)
+#   GCLOUD_SERVICE_ACCOUNT_CREDENTIALS (JSON service account with Play Console access)
+#
+# To export the upload keystore as base64 for the CM_KEYSTORE env var:
+#   base64 -i android/app/likehim-upload-keystore.jks | pbcopy   (macOS)
+#   certutil -encode android/app/likehim-upload-keystore.jks tmp.b64 && type tmp.b64   (Windows)
+
+definitions:
+  flutter: &flutter_version stable
+  app_id: &app_id dev.airborneeagle.likehim
+
+workflows:
+  ios-app-store:
+    name: iOS — App Store
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: codemagic
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: *app_id
+      vars:
+        BUNDLE_ID: *app_id
+        APP_STORE_APPLE_ID: $APP_STORE_APP_ID
+      flutter: *flutter_version
+      xcode: latest
+      cocoapods: default
+
+    # triggering:
+    #   events: [push]
+    #   branch_patterns:
+    #     - pattern: main
+    #       include: true
+    #       source: true
+
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: xcode-project use-profiles
+      - name: Get Flutter packages
+        script: flutter pub get
+      - name: Install pods
+        script: |
+          cd ios && pod install --repo-update
+      - name: Bump build number from App Store Connect latest
+        script: |
+          LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APP_ID" || echo "0")
+          NEW=$(($LATEST_BUILD_NUMBER + 1))
+          echo "Setting build number to $NEW"
+          cd ios && agvtool new-version -all $NEW
+      - name: Flutter build ipa
+        script: |
+          flutter build ipa --release \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        # Submit automatically to TestFlight; do NOT submit to App Store Review
+        # automatically — release-to-production is gated on the manual #25 issue.
+        submit_to_testflight: true
+        beta_groups:
+          - Internal
+      email:
+        recipients:
+          - tyler.l.christensen@gmail.com
+        notify:
+          success: true
+          failure: true
+
+  android-play-store:
+    name: Android — Play internal
+    instance_type: linux_x2
+    max_build_duration: 60
+    environment:
+      android_signing:
+        - keystore_reference
+      vars:
+        PACKAGE_NAME: *app_id
+        GOOGLE_PLAY_TRACK: internal
+      flutter: *flutter_version
+
+    # triggering:
+    #   events: [push]
+    #   branch_patterns:
+    #     - pattern: main
+    #       include: true
+    #       source: true
+
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Get Flutter packages
+        script: flutter pub get
+      - name: Bump build number from Play latest
+        script: |
+          LATEST=$(google-play get-latest-build-number \
+            --package-name "$PACKAGE_NAME" \
+            --tracks="$GOOGLE_PLAY_TRACK,production" || echo "0")
+          NEW=$(($LATEST + 1))
+          echo "Setting build number to $NEW"
+          # Codemagic exposes the build number via --build-number; pass it through
+          echo "BUILD_NUMBER=$NEW" >> $CM_ENV
+      - name: Flutter build appbundle
+        script: |
+          flutter build appbundle --release \
+            --build-name=1.0.0 \
+            --build-number=${BUILD_NUMBER:-1}
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
+    publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        # First few releases stay on internal; promote to production manually
+        # once the 14-day Play burn-in (#22) clears.
+      email:
+        recipients:
+          - tyler.l.christensen@gmail.com
+        notify:
+          success: true
+          failure: true

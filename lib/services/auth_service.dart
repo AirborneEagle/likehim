@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 /// Firebase-backed auth.
 ///
@@ -159,6 +163,78 @@ class AuthService extends ChangeNotifier {
     _currentUser = _from(cred.user!);
     notifyListeners();
     return _currentUser!;
+  }
+
+  /// Sign in with Apple. iOS-only entry point; Apple Review Guideline 4.8
+  /// requires this option whenever a third-party social login (Google) is
+  /// offered. We use the native Apple sheet via `sign_in_with_apple`, then
+  /// exchange the identity token for a Firebase OAuthCredential.
+  ///
+  /// As with Google, if the current user is anonymous we LINK the Apple
+  /// credential so the same uid (and all reflection data) survives the
+  /// upgrade. If linking fails because the Apple account is already a
+  /// Firebase user, we fall back to signing into that account.
+  Future<AppUser> signInWithApple() async {
+    // Apple's flow expects a SHA256-hashed nonce; we generate a raw nonce
+    // and hash it so the identity token Apple returns is bound to it.
+    final rawNonce = _generateNonce();
+    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
+
+    final appleCred = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: hashedNonce,
+    );
+
+    final oauth = OAuthProvider('apple.com').credential(
+      idToken: appleCred.identityToken,
+      rawNonce: rawNonce,
+      accessToken: appleCred.authorizationCode,
+    );
+
+    final current = _fb.currentUser;
+    UserCredential cred;
+    try {
+      if (current != null && current.isAnonymous) {
+        cred = await current.linkWithCredential(oauth);
+      } else {
+        cred = await _fb.signInWithCredential(oauth);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'credential-already-in-use' ||
+          e.code == 'email-already-in-use') {
+        cred = await _fb.signInWithCredential(oauth);
+      } else {
+        rethrow;
+      }
+    }
+
+    // Apple only sends the user's full name on the FIRST sign-in for a given
+    // app — subsequent sign-ins return null for givenName/familyName. Persist
+    // it to the Firebase profile while we have it.
+    final displayName = [appleCred.givenName, appleCred.familyName]
+        .where((p) => p != null && p.isNotEmpty)
+        .join(' ');
+    if (displayName.isNotEmpty &&
+        (cred.user!.displayName == null || cred.user!.displayName!.isEmpty)) {
+      await cred.user!.updateDisplayName(displayName);
+      await cred.user!.reload();
+    }
+
+    final fresh = _fb.currentUser ?? cred.user!;
+    _currentUser = _from(fresh);
+    notifyListeners();
+    return _currentUser!;
+  }
+
+  String _generateNonce([int length = 32]) {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
   }
 
   Future<void> updateDisplayName(String name) async {
