@@ -156,6 +156,8 @@ const List<Attribute> kAttributes = [
       Question(
         id: 'hope_2',
         text: 'I am confident that I will have a happy and successful mission.',
+        lifeText:
+            'I am confident that I will have a happy and meaningful life.',
         scriptures: [
           ScriptureRef(
             ref: 'Doctrine and Covenants 31:3–5',
@@ -553,6 +555,8 @@ const List<Attribute> kAttributes = [
       Question(
         id: 'patience_3',
         text: 'I am patient with the challenges of being a missionary.',
+        lifeText:
+            'I am patient with the challenges of my own life and circumstances.',
         scriptures: [
           ScriptureRef(
             ref: 'Alma 17:11',
@@ -721,6 +725,8 @@ const List<Attribute> kAttributes = [
       Question(
         id: 'diligence_4',
         text: 'I focus my thoughts on my calling as a missionary.',
+        lifeText:
+            'I focus my thoughts on the work the Lord has given me to do.',
         scriptures: [
           ScriptureRef(
             ref: 'Doctrine and Covenants 4:2, 5',
@@ -804,6 +810,8 @@ const List<Attribute> kAttributes = [
         id: 'obedience_3',
         text:
             'I willingly obey the mission rules and follow the counsel of my leaders.',
+        lifeText:
+            'I willingly follow the commandments and the counsel of my church leaders.',
         scriptures: [
           ScriptureRef(
             ref: 'Hebrews 13:17',

@@ -117,6 +117,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           const SizedBox(height: 24),
+          Text('Reading',
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: scheme.onSurfaceVariant,
+                letterSpacing: 0.6,
+                fontWeight: FontWeight.w600,
+              )),
+          const SizedBox(height: 8),
+          Card(
+            child: Column(
+              children: [
+                _AudienceTile(
+                  audience: Audience.member,
+                  current: widget.assessments.audience,
+                  title: 'Not currently serving a mission',
+                  subtitle:
+                      'A few statements that reference mission life are gently reworded to fit everyday life.',
+                  onSelect: (a) => widget.assessments.setAudience(a),
+                ),
+                const Divider(height: 1),
+                _AudienceTile(
+                  audience: Audience.missionary,
+                  current: widget.assessments.audience,
+                  title: 'Serving a mission',
+                  subtitle:
+                      'See every statement exactly as it appears in Preach My Gospel.',
+                  onSelect: (a) => widget.assessments.setAudience(a),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
           Text('Gentle reminders',
               style: theme.textTheme.labelMedium?.copyWith(
                 color: scheme.onSurfaceVariant,
@@ -257,6 +288,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _AudienceTile extends StatelessWidget {
+  final Audience audience;
+  final Audience current;
+  final String title;
+  final String subtitle;
+  final ValueChanged<Audience> onSelect;
+
+  const _AudienceTile({
+    required this.audience,
+    required this.current,
+    required this.title,
+    required this.subtitle,
+    required this.onSelect,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final selected = audience == current;
+    return ListTile(
+      leading: Icon(
+        selected ? Icons.radio_button_checked : Icons.radio_button_off,
+        color: selected ? scheme.primary : scheme.onSurfaceVariant,
+      ),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      onTap: () => onSelect(audience),
     );
   }
 }

@@ -180,6 +180,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                         key: ValueKey('attr-page-${a.id}'),
                         attribute: a,
                         draft: draft,
+                        audience: widget.assessments.audience,
                         onRate: (qid, rating) {
                           widget.assessments.setRating(qid, rating);
                         },
@@ -363,6 +364,7 @@ class _AttributePagerState extends State<_AttributePager> {
 class _AttributePage extends StatefulWidget {
   final Attribute attribute;
   final Assessment draft;
+  final Audience audience;
   final void Function(String qid, int rating) onRate;
   /// Fires when a fresh rating completes the last unanswered question of
   /// this attribute. Parent decides whether that means advancing to the
@@ -373,6 +375,7 @@ class _AttributePage extends StatefulWidget {
     super.key,
     required this.attribute,
     required this.draft,
+    required this.audience,
     required this.onRate,
     required this.onSectionCompleted,
   });
@@ -502,6 +505,9 @@ class _AttributePageState extends State<_AttributePage> {
           final i = entry.key;
           final q = entry.value;
           final value = widget.draft.ratings[q.id];
+          final showingAlternate =
+              widget.audience == Audience.member && q.lifeText != null;
+          final renderedText = showingAlternate ? q.lifeText! : q.text;
           return Padding(
             key: _questionKeys[i],
             padding: const EdgeInsets.only(bottom: 18),
@@ -533,12 +539,29 @@ class _AttributePageState extends State<_AttributePage> {
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: Text(
-                            q.text,
-                            style: theme.textTheme.bodyLarge?.copyWith(
-                              height: 1.4,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                renderedText,
+                                style:
+                                    theme.textTheme.bodyLarge?.copyWith(
+                                  height: 1.4,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              if (showingAlternate) ...[
+                                const SizedBox(height: 6),
+                                Text(
+                                  'Adapted from Preach My Gospel for non-mission settings.',
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: scheme.onSurfaceVariant
+                                        .withValues(alpha: 0.85),
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                         ),
                       ],

@@ -10,6 +10,12 @@ import '../models/assessment.dart';
 
 enum ReminderCadence { off, weekly, monthly }
 
+/// Whether the user is currently serving a full-time mission. Drives which
+/// rendering of the four mission-specific statements they see — same
+/// question id, same conceptual attribute, just different phrasing.
+/// Default is [member] because most users aren't currently on a mission.
+enum Audience { member, missionary }
+
 /// Firestore-backed assessment store.
 ///
 /// Layout:
@@ -34,6 +40,7 @@ class AssessmentService extends ChangeNotifier {
   String? _focusAttributeId;
   DateTime? _focusSetAt;
   ReminderCadence _reminderCadence = ReminderCadence.off;
+  Audience _audience = Audience.member;
 
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _assessmentsSub;
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _userDocSub;
@@ -45,6 +52,7 @@ class AssessmentService extends ChangeNotifier {
   String? get focusAttributeId => _focusAttributeId;
   DateTime? get focusSetAt => _focusSetAt;
   ReminderCadence get reminderCadence => _reminderCadence;
+  Audience get audience => _audience;
 
   Assessment? get latestComplete {
     final completed =
@@ -116,6 +124,9 @@ class AssessmentService extends ChangeNotifier {
     final cadenceIdx = (data['reminderCadenceIdx'] as int?) ?? 0;
     _reminderCadence = ReminderCadence
         .values[cadenceIdx.clamp(0, ReminderCadence.values.length - 1)];
+    final audienceIdx = (data['audienceIdx'] as int?) ?? 0;
+    _audience =
+        Audience.values[audienceIdx.clamp(0, Audience.values.length - 1)];
     notifyListeners();
   }
 
@@ -165,6 +176,16 @@ class AssessmentService extends ChangeNotifier {
     if (_userId == null) return;
     await _userDoc.set(
       {'reminderCadenceIdx': cadence.index},
+      SetOptions(merge: true),
+    );
+  }
+
+  Future<void> setAudience(Audience audience) async {
+    _audience = audience;
+    notifyListeners();
+    if (_userId == null) return;
+    await _userDoc.set(
+      {'audienceIdx': audience.index},
       SetOptions(merge: true),
     );
   }

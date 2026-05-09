@@ -182,7 +182,10 @@ class AttributeDetailScreen extends StatelessWidget {
                               const SizedBox(width: 10),
                               Expanded(
                                 child: Text(
-                                  q.text,
+                                  (assessments.audience == Audience.member &&
+                                          q.lifeText != null)
+                                      ? q.lifeText!
+                                      : q.text,
                                   style: theme.textTheme.bodyMedium
                                       ?.copyWith(height: 1.4),
                                 ),
