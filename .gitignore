@@ -57,7 +57,7 @@ app.*.map.json
 # These keys are also restricted at the GCP level (allowed app + cert SHA-1
 # / bundle ID / referrer), so a leak isn't catastrophic, but there's no
 # reason to publish them. Each developer should regenerate locally via
-# `flutterfire configure --project=claa-49961`.
+# `flutterfire configure --project=like-him-app`.
 /lib/firebase_options.dart
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist

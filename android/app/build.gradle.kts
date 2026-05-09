@@ -21,7 +21,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "dev.airborneeagle.liken"
+    namespace = "dev.airborneeagle.likehim"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -36,7 +36,7 @@ android {
 
     defaultConfig {
         // Bundle ID is permanent for the Play Store listing.
-        applicationId = "dev.airborneeagle.liken"
+        applicationId = "dev.airborneeagle.likehim"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

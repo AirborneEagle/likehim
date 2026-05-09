@@ -1,4 +1,4 @@
-package dev.airborneeagle.liken
+package dev.airborneeagle.likehim
 
 import io.flutter.embedding.android.FlutterActivity
 

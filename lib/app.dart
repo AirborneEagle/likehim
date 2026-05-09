@@ -119,7 +119,7 @@ class _BootstrapError extends StatelessWidget {
                   style: theme.textTheme.headlineSmall),
               const SizedBox(height: 12),
               Text(
-                'This usually means one of two things needs to be enabled in your Firebase console for project claa-49961:',
+                'This usually means one of two things needs to be enabled in your Firebase console for project like-him-app:',
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: scheme.onSurfaceVariant,

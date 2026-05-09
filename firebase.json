@@ -82,18 +82,18 @@
     "platforms": {
       "android": {
         "default": {
-          "projectId": "claa-49961",
-          "appId": "1:1048855205536:android:ca6877dcd0bcb0db7adbc5",
+          "projectId": "like-him-app",
+          "appId": "1:202035979322:android:702011578c23e6057fc103",
           "fileOutput": "android/app/google-services.json"
         }
       },
       "dart": {
         "lib/firebase_options.dart": {
-          "projectId": "claa-49961",
+          "projectId": "like-him-app",
           "configurations": {
-            "android": "1:1048855205536:android:ca6877dcd0bcb0db7adbc5",
-            "ios": "1:1048855205536:ios:fc11e98518b743fd7adbc5",
-            "web": "1:1048855205536:web:291d32c83c3dbfce7adbc5"
+            "android": "1:202035979322:android:702011578c23e6057fc103",
+            "ios": "1:202035979322:ios:4287f778a1262aa87fc103",
+            "web": "1:202035979322:web:861f98a15c7abfe07fc103"
           }
         }
       }
