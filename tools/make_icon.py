@@ -1,5 +1,5 @@
 """
-Generate the Liken app icon family from a single procedural source.
+Generate the Like Him app icon family from a single procedural source.
 
 Output:
   assets/icon/icon_master.png        — 1024x1024, full-bleed (rounded square baked in)
@@ -30,7 +30,7 @@ ASSETS = REPO / "assets" / "icon"
 ASSETS.mkdir(parents=True, exist_ok=True)
 
 
-# Liken palette — keyed to lib/theme/theme.dart
+# Like Him palette — keyed to lib/theme/theme.dart
 NAVY_DEEP = (27, 42, 64)        # midnight blue
 NAVY_RIM = (16, 26, 42)         # darker rim for vignette
 CREAM = (250, 240, 220)         # warm parchment
@@ -267,7 +267,7 @@ def feature_graphic(width: int = 1024, height: int = 500) -> Image.Image:
 
     draw.text(
         (text_x, text_y_title),
-        "Liken",
+        "Like Him",
         font=title_font,
         fill=CREAM + (255,),
     )

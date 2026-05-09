@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Text('Liken', style: theme.textTheme.titleLarge),
+                      Text('Like Him', style: theme.textTheme.titleLarge),
                     ],
                   ),
                 ),

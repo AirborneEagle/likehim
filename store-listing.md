@@ -1,4 +1,4 @@
-# Liken — Play Store / App Store listing copy
+# Like Him — Play Store / App Store listing copy
 
 Pre-written copy you can paste into Google Play Console and App Store Connect
 when you're ready to submit. Edit to taste, but it's all here so you don't
@@ -8,7 +8,7 @@ have to write it from scratch under deadline pressure.
 
 ## App name (30 char limit)
 
-> Liken
+> Like Him
 
 (The Play Store also asks for a "short name" — same.)
 
@@ -18,14 +18,14 @@ have to write it from scratch under deadline pressure.
 
 ## Full description (4000 char limit on Play, 4000 on App Store)
 
-> Liken is a quiet companion for becoming more like the Savior — built around
+> Like Him is a quiet companion for becoming more like the Savior — built around
 > the **Christlike Attribute Activity** from chapter 6 of *Preach My Gospel:
 > A Guide to Sharing the Gospel of Jesus Christ* (2023).
 >
 > You take a gentle, prayerful self-assessment, rating each statement under
 > ten attributes — Faith, Hope, Charity & Love, Virtue, Integrity, Knowledge,
 > Patience, Humility, Diligence, and Obedience — on the *Never → Always*
-> scale. Liken remembers your reflections forever and shows you, quietly, how
+> scale. Like Him remembers your reflections forever and shows you, quietly, how
 > your soul is being shaped over time.
 >
 > **What's inside**
@@ -47,7 +47,7 @@ have to write it from scratch under deadline pressure.
 >
 > **What it isn't**
 >
-> Liken is not a scoreboard. There are no streaks, no badges, no
+> Like Him is not a scoreboard. There are no streaks, no badges, no
 > headlining numbers. The point isn't to "beat" yesterday's score — the
 > point is to notice, to be honest, and to keep coming back. The deficits
 > are an invitation, not a verdict.
@@ -69,12 +69,12 @@ have to write it from scratch under deadline pressure.
 
 You'll need a hosted privacy policy. The text is in `PRIVACY.md` (TODO —
 I left this for you because the email/contact info needs to be yours).
-Suggested host: a static page at https://liken.app/privacy or a GitHub
+Suggested host: a static page at https://likehim.app/privacy or a GitHub
 Pages site. Both stores REQUIRE a public URL.
 
 ## Data safety / App Privacy declaration
 
-**Data Liken collects** (be honest with the stores about this):
+**Data Like Him collects** (be honest with the stores about this):
 
 | Type | Why | Linked to user | Tracking? |
 |---|---|---|---|
@@ -114,7 +114,7 @@ device you have:
 ## Feature graphic (Play Store, 1024×500)
 
 Suggested composition: deep-midnight background, the rosette mark on the
-left, the words **Liken** and *a quiet companion for becoming* on the
+left, the words **Like Him** and *a quiet companion for becoming* on the
 right in Fraunces / Inter. I haven't built a generator for this — see
 TODO at the end of this doc.
 
@@ -127,7 +127,7 @@ TODO at the end of this doc.
 
 - **Email:** TBD — you'll want a real address at a domain you control.
   Both stores require it.
-- **Website:** liken.app (or wherever — both stores require a URL).
+- **Website:** likehim.app (or wherever — both stores require a URL).
 
 ## Pricing & monetization
 
@@ -156,7 +156,7 @@ These need decisions only you can make:
    Easiest path: anonymous-first means they don't strictly need one; if
    they ask, the app works without sign-in and you can say so.
 6. **App tracking transparency disclosure** (Apple) — answer the
-   "tracking" questions honestly: Liken does NOT track users, does NOT
+   "tracking" questions honestly: Like Him does NOT track users, does NOT
    share data with third parties for advertising, and does NOT use any
    of the iOS tracking APIs. The "App Tracking Transparency" prompt is
    not required.
@@ -164,11 +164,11 @@ These need decisions only you can make:
 ## Privacy policy stub (TODO: replace placeholders, host as a public URL)
 
 ```
-# Liken Privacy Policy
+# Like Him Privacy Policy
 
 Last updated: <date>
 
-Liken is a personal devotional reflection app. We collect only what we
+Like Him is a personal devotional reflection app. We collect only what we
 need to make the app work, and we never sell or share your data with
 third parties for advertising.
 
@@ -189,12 +189,12 @@ Nothing. We do not sell your data, and we do not share it with third
 parties for advertising or analytics. We do not use ad networks.
 
 ## How to delete your data
-Open Liken → Settings → "Erase all my reflections". This removes
+Open Like Him → Settings → "Erase all my reflections". This removes
 everything we've stored for you. You can also email <support@email>
 and we'll delete it manually.
 
 ## Children
-Liken is suitable for all ages. We do not knowingly collect data from
+Like Him is suitable for all ages. We do not knowingly collect data from
 children under 13 except as described above.
 
 ## Contact

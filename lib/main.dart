@@ -20,7 +20,7 @@ void main() async {
 
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
-    debugPrint('Liken flutter error: ${details.exceptionAsString()}');
+    debugPrint('Like Him flutter error: ${details.exceptionAsString()}');
   };
 
   try {
@@ -30,8 +30,8 @@ void main() async {
   } catch (e, st) {
     firebaseInitError = e;
     firebaseInitStack = st;
-    debugPrint('Liken Firebase.initializeApp failed: $e\n$st');
+    debugPrint('Like Him Firebase.initializeApp failed: $e\n$st');
   }
 
-  runApp(const LikenApp());
+  runApp(const LikeHimApp());
 }

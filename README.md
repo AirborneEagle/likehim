@@ -1,11 +1,11 @@
-# Liken — a quiet companion for becoming
+# Like Him — a quiet companion for becoming
 
 A Flutter app for the **Christlike Attribute Activity** from chapter 6 of
 *Preach My Gospel: A Guide to Sharing the Gospel of Jesus Christ* (2023).
 
 You take a prayerful self-reflection across ten attributes (Faith, Hope,
 Charity & Love, Virtue, Integrity, Knowledge, Patience, Humility,
-Diligence, Obedience) on the *Never → Always* scale. Liken remembers it
+Diligence, Obedience) on the *Never → Always* scale. Like Him remembers it
 forever. A radar chart shows your most recent reflection; line charts
 show how each attribute moves over time. Every scripture reference taps
 through to the verse on [churchofjesuschrist.org](https://www.churchofjesuschrist.org/).
@@ -21,7 +21,7 @@ through to the verse on [churchofjesuschrist.org](https://www.churchofjesuschris
 
 That's a real Firebase Hosting deploy of the latest build. Sign in with
 email/password to keep your reflections in step across devices, or tap
-"Try Liken without an account" for an anonymous local-only session.
+"Try Like Him without an account" for an anonymous local-only session.
 
 A local server may also be running on <http://localhost:8765> serving
 the same `build/web/` artifact. Restart with:

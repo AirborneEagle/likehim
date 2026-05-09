@@ -144,7 +144,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 const SizedBox(height: 36),
                 Text(
-                  'Liken',
+                  'Like Him',
                   textAlign: TextAlign.center,
                   style: theme.textTheme.displayMedium,
                 ),
@@ -298,7 +298,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           horizontal: 12, vertical: 8),
                     ),
                     child: Text(
-                      'Try Liken without an account',
+                      'Try Like Him without an account',
                       style: theme.textTheme.labelMedium?.copyWith(
                         color: scheme.onSurfaceVariant,
                         decoration: TextDecoration.underline,

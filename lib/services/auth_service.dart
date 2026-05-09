@@ -50,7 +50,7 @@ class AuthService extends ChangeNotifier {
         notifyListeners();
       },
       onError: (Object e, StackTrace st) {
-        debugPrint('Liken auth stream error: $e\n$st');
+        debugPrint('Like Him auth stream error: $e\n$st');
       },
     );
     notifyListeners();

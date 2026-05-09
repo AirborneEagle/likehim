@@ -8,14 +8,14 @@ import 'services/assessment_service.dart';
 import 'services/auth_service.dart';
 import 'theme/theme.dart';
 
-class LikenApp extends StatefulWidget {
-  const LikenApp({super.key});
+class LikeHimApp extends StatefulWidget {
+  const LikeHimApp({super.key});
 
   @override
-  State<LikenApp> createState() => _LikenAppState();
+  State<LikeHimApp> createState() => _LikeHimAppState();
 }
 
-class _LikenAppState extends State<LikenApp> {
+class _LikeHimAppState extends State<LikeHimApp> {
   final AuthService _auth = AuthService();
   final AssessmentService _assessments = AssessmentService();
   bool _bootstrapped = false;
@@ -43,7 +43,7 @@ class _LikenAppState extends State<LikenApp> {
         await _assessments.bindUser(user.id);
       }
     } catch (e, st) {
-      debugPrint('Liken bootstrap error: $e\n$st');
+      debugPrint('Like Him bootstrap error: $e\n$st');
       _bootstrapError = e;
     }
     if (mounted) {
@@ -57,7 +57,7 @@ class _LikenAppState extends State<LikenApp> {
       try {
         await _assessments.bindUser(user.id);
       } catch (e, st) {
-        debugPrint('Liken assessments.bindUser error: $e\n$st');
+        debugPrint('Like Him assessments.bindUser error: $e\n$st');
       }
     }
     if (mounted) setState(() {});
@@ -72,7 +72,7 @@ class _LikenAppState extends State<LikenApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Liken',
+      title: 'Like Him',
       debugShowCheckedModeBanner: false,
       theme: buildLightTheme(),
       darkTheme: buildDarkTheme(),
