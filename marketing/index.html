@@ -141,6 +141,93 @@
       letter-spacing: 0.02em;
     }
 
+    /* App store badges with "Coming soon" overlay */
+    .store-badges {
+      margin: 28px 0 0;
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .store-badge {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 18px;
+      min-width: 184px;
+      height: 56px;
+      background: var(--ink);
+      color: var(--bg);
+      border-radius: 14px;
+      text-decoration: none;
+      cursor: not-allowed;
+      opacity: 0.92;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    .store-badge:hover { transform: translateY(-1px); opacity: 1; }
+    @media (prefers-color-scheme: dark) {
+      .store-badge { background: var(--surface); color: var(--ink); border: 1px solid var(--outline); }
+    }
+    .store-badge svg { width: 28px; height: 28px; flex-shrink: 0; }
+    .store-text { display: flex; flex-direction: column; line-height: 1.1; text-align: left; }
+    .store-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.72;
+      font-weight: 500;
+    }
+    .store-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 500;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+      margin-top: 2px;
+    }
+    .store-badge .store-coming-soon {
+      position: absolute;
+      top: -9px;
+      right: -9px;
+      background: var(--accent);
+      color: #2A2620;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 999px;
+      box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.35);
+    }
+
+    /* App preview */
+    .preview {
+      margin-top: 96px;
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      align-items: flex-end;
+    }
+    .preview img {
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--outline);
+      background: var(--surface);
+    }
+    .preview .shot-secondary {
+      max-width: 220px;
+      transform: translateY(24px);
+      opacity: 0.92;
+    }
+    @media (max-width: 540px) {
+      .preview { gap: 14px; }
+      .preview img { max-width: 46vw; border-radius: 22px; }
+      .preview .shot-secondary { transform: translateY(16px); }
+    }
+
     /* What it is */
     .about {
       margin-top: 96px;
@@ -236,7 +323,52 @@
         <a href="https://app.likehim.app" class="btn btn-primary">Begin reflecting</a>
         <a href="#about" class="btn btn-outline">What is this?</a>
       </div>
-      <p class="stores-soon">iOS &amp; Android coming soon.</p>
+
+      <div class="store-badges" aria-label="Native apps coming soon">
+        <span class="store-badge" role="img" aria-label="iOS App Store — coming soon">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+            <path d="M16.365 1.43c0 1.14-.41 2.207-1.232 3.038-.99 1.005-2.213 1.583-3.493 1.487-.052-1.14.42-2.27 1.225-3.07.91-.91 2.218-1.485 3.5-1.455zM20.5 17.07c-.547 1.235-.81 1.79-1.51 2.88-.98 1.523-2.36 3.42-4.07 3.43-1.52.013-1.91-.99-3.97-.98-2.06.013-2.49.997-4.012.985-1.71-.013-3.018-1.74-3.998-3.265-2.74-4.27-3.027-9.275-1.337-11.94 1.2-1.892 3.092-3.005 4.872-3.005 1.81 0 2.95 1.005 4.443 1.005 1.45 0 2.33-1.008 4.418-1.008 1.583 0 3.262.86 4.46 2.346-3.92 2.146-3.282 7.755.704 9.552z"/>
+          </svg>
+          <span class="store-text">
+            <span class="store-eyebrow">Download on the</span>
+            <span class="store-name">App Store</span>
+          </span>
+          <span class="store-coming-soon">Coming soon</span>
+        </span>
+
+        <span class="store-badge" role="img" aria-label="Google Play — coming soon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <defs>
+              <linearGradient id="g-blue" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#00A0FF"/><stop offset="1" stop-color="#00E2FF"/>
+              </linearGradient>
+              <linearGradient id="g-yellow" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#FFE000"/><stop offset="1" stop-color="#FFBD00"/>
+              </linearGradient>
+              <linearGradient id="g-red" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#FF3A44"/><stop offset="1" stop-color="#C31162"/>
+              </linearGradient>
+              <linearGradient id="g-green" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#32A071"/><stop offset="1" stop-color="#00876B"/>
+              </linearGradient>
+            </defs>
+            <path d="M3.6 2.2c-.38.4-.6.99-.6 1.77v16.06c0 .78.22 1.37.6 1.76l.06.06 9-9v-.21l-9-9-.06.06z" fill="url(#g-blue)"/>
+            <path d="M15.66 15.85l-3-3v-.2l3-3 .07.04 3.55 2.02c1.02.58 1.02 1.52 0 2.1l-3.55 2.02-.07.02z" fill="url(#g-yellow)"/>
+            <path d="M15.73 15.81l-3.07-3.07-9.06 9.06c.34.36.89.4 1.52.05l10.61-6.04" fill="url(#g-red)"/>
+            <path d="M15.73 9.67L5.12 3.63c-.63-.36-1.18-.31-1.52.05l9.06 9.06 3.07-3.07z" fill="url(#g-green)"/>
+          </svg>
+          <span class="store-text">
+            <span class="store-eyebrow">Get it on</span>
+            <span class="store-name">Google Play</span>
+          </span>
+          <span class="store-coming-soon">Coming soon</span>
+        </span>
+      </div>
+    </section>
+
+    <section class="preview" aria-label="A look at the app">
+      <img src="screenshot-home.png" alt="Like Him home screen, showing the radar chart of recent reflection and the list of attributes." class="shot-primary" loading="lazy">
+      <img src="screenshot-intro.png" alt="A quiet pause before reflecting — &quot;A moment.&quot;" class="shot-secondary" loading="lazy">
     </section>
 
     <section class="about" id="about">

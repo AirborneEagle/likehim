@@ -62,3 +62,12 @@ app.*.map.json
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
 /macos/Runner/GoogleService-Info.plist
+poll-domains.sh
+
+# Local node_modules used by tools/screenshots.mjs (Playwright)
+/node_modules/
+/package-lock.json
+# Intermediate frames from tools/screenshots.mjs
+/tools/_step_*.png
+/tools/probe*.png
+/tools/probe.mjs

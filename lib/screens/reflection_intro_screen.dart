@@ -23,6 +23,10 @@ class ReflectionIntroScreen extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(flex: 2),
+              // Quiet anchor for this moment: a heavily desaturated, warm-toned
+              // detail crop from Carl Bloch's "Christ in Gethsemane" (1879,
+              // public domain), layered over the warm sunrise gradient so the
+              // brand palette bleeds through.
               Container(
                 width: 96,
                 height: 96,
@@ -44,10 +48,13 @@ class ReflectionIntroScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Icon(
-                  Icons.brightness_5_outlined,
-                  color: Colors.white,
-                  size: 48,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(32),
+                  child: Image.asset(
+                    'assets/images/intro_bloch.webp',
+                    fit: BoxFit.cover,
+                    opacity: const AlwaysStoppedAnimation(0.72),
+                  ),
                 ),
               ),
               const SizedBox(height: 36),
