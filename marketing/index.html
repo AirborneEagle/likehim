@@ -206,7 +206,7 @@
       display: flex;
       gap: 24px;
       justify-content: center;
-      align-items: flex-end;
+      align-items: flex-start;
     }
     .preview img {
       width: 100%;
@@ -217,15 +217,9 @@
       border: 1px solid var(--outline);
       background: var(--surface);
     }
-    .preview .shot-secondary {
-      max-width: 220px;
-      transform: translateY(24px);
-      opacity: 0.92;
-    }
     @media (max-width: 540px) {
       .preview { gap: 14px; }
       .preview img { max-width: 46vw; border-radius: 22px; }
-      .preview .shot-secondary { transform: translateY(16px); }
     }
 
     /* What it is */
@@ -367,8 +361,8 @@
     </section>
 
     <section class="preview" aria-label="A look at the app">
-      <img src="screenshot-home.png" alt="Like Him home screen, showing the radar chart of recent reflection and the list of attributes." class="shot-primary" loading="lazy">
-      <img src="screenshot-intro.png" alt="A quiet pause before reflecting — &quot;A moment.&quot;" class="shot-secondary" loading="lazy">
+      <img src="screenshot-home.png" alt="Like Him home screen, showing the radar chart of recent reflection and the list of attributes." loading="lazy">
+      <img src="screenshot-intro.png" alt="A quiet pause before reflecting — &quot;A moment.&quot;" loading="lazy">
     </section>
 
     <section class="about" id="about">
