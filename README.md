@@ -17,11 +17,18 @@ through to the verse on [churchofjesuschrist.org](https://www.churchofjesuschris
 
 ## Try it right now
 
-🌐 **Live on the web:** <https://like-him-app.web.app>
+🌐 **Landing page:** <https://likehim.app> (also <https://like-him-marketing.web.app>)
+🌐 **App:** <https://app.likehim.app> (also <https://like-him-app.web.app>)
 
-That's a real Firebase Hosting deploy of the latest build. Sign in with
-email/password to keep your reflections in step across devices, or tap
-"Try Like Him without an account" for an anonymous local-only session.
+Both are real Firebase Hosting deploys of the latest build, served as
+two separate sites under the same `like-him-app` Firebase project — see
+the `hosting` array in `firebase.json` and the targets in `.firebaserc`.
+The landing page (`marketing/`) is plain HTML; the app (`build/web/`)
+is the Flutter web release.
+
+Sign in with email/password to keep your reflections in step across
+devices, or tap "Try Like Him without an account" for an anonymous
+local-only session.
 
 A local server may also be running on <http://localhost:8765> serving
 the same `build/web/` artifact. Restart with:
@@ -44,7 +51,8 @@ Rebuild first with `flutter build web --release` if the source changed.
 | Cloud sync | ✅ Firestore — `users/{uid}/assessments/*` with offline persistence |
 | Radar + line charts | ✅ |
 | Scripture deep links | ✅ |
-| **Web release** | ✅ Deployed to <https://like-him-app.web.app> |
+| **Web release** | ✅ Deployed to <https://app.likehim.app> |
+| **Landing page** | ✅ Deployed to <https://likehim.app> (`marketing/index.html`) |
 | **App icon family** | ✅ Procedural rosette (see `tools/make_icon.py`) |
 | **Android signing keystore** | ✅ Generated, signing wired in `android/app/build.gradle.kts` |
 | **Android `.aab` build** | ✅ Builds; see `build/app/outputs/bundle/release/` |

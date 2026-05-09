@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "like-him-app"
+  },
+  "targets": {
+    "like-him-app": {
+      "hosting": {
+        "app": [
+          "like-him-app"
+        ],
+        "marketing": [
+          "like-him-marketing"
+        ]
+      }
+    }
   }
 }
