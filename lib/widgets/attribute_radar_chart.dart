@@ -4,7 +4,18 @@ import 'package:flutter/material.dart';
 import '../data/claa_data.dart';
 import '../models/assessment.dart';
 
-/// Radar chart showing one assessment's score per attribute (0–5 scale).
+/// Radar chart showing one assessment's score per attribute on a fixed
+/// 1–5 scale.
+///
+/// The scale is pinned: outermost ring = 5.0 ("Always"), innermost point
+/// = 1.0 ("Never"). Every reflection plots against the same backdrop, so
+/// a 4.0 always sits 75% of the way out — never dragged to the centre by
+/// a slightly-better cluster of other attributes.
+///
+/// fl_chart auto-scales to the largest value seen across all data sets,
+/// so we pin the upper bound with an invisible ceiling set at 4.0 (post-
+/// transform). Plotted values map raw 1..5 → 0..4 so the inner-most point
+/// of the polygon corresponds to a rating of 1.
 ///
 /// When [compareTo] is supplied, the previous reflection is drawn first
 /// in warm terracotta so it reads as a secondary backdrop, then the current
@@ -22,6 +33,13 @@ class AttributeRadarChart extends StatelessWidget {
     this.size = 320,
   });
 
+  /// Map a raw 1..5 score (or null for an unrated attribute) onto the
+  /// chart's 0..4 plotted extent. Null/missing → innermost ring (1.0).
+  static double _plotted(double? raw) {
+    final v = (raw ?? 1.0).clamp(1.0, 5.0);
+    return v - 1.0;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -32,15 +50,31 @@ class AttributeRadarChart extends StatelessWidget {
 
     final entries = <RadarEntry>[
       for (final a in kAttributes)
-        RadarEntry(value: assessment.attributeScore(a.id) ?? 0),
+        RadarEntry(value: _plotted(assessment.attributeScore(a.id))),
     ];
 
     final dataSets = <RadarDataSet>[];
 
+    // Invisible ceiling: pins the auto-scale upper bound to 5.0 raw
+    // (= 4.0 plotted), regardless of how the actual reflection scored.
+    // Drawn first so it's underneath everything.
+    dataSets.add(
+      RadarDataSet(
+        dataEntries: List<RadarEntry>.filled(
+          kAttributes.length,
+          const RadarEntry(value: 4.0),
+        ),
+        fillColor: Colors.transparent,
+        borderColor: Colors.transparent,
+        borderWidth: 0,
+        entryRadius: 0,
+      ),
+    );
+
     if (compareTo != null) {
       final cmp = <RadarEntry>[
         for (final a in kAttributes)
-          RadarEntry(value: compareTo!.attributeScore(a.id) ?? 0),
+          RadarEntry(value: _plotted(compareTo!.attributeScore(a.id))),
       ];
       dataSets.add(
         RadarDataSet(
