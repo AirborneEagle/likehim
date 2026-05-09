@@ -1,6 +1,5 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../services/auth_service.dart';
 
@@ -159,27 +158,30 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 const SizedBox(height: 36),
 
-                // Sign-in / Create account segmented control
-                Center(
-                  child: SegmentedButton<_Mode>(
-                    segments: const [
-                      ButtonSegment(
-                        value: _Mode.signIn,
-                        label: Text('Sign in'),
-                      ),
-                      ButtonSegment(
-                        value: _Mode.createAccount,
-                        label: Text('Create account'),
-                      ),
-                    ],
-                    selected: {_mode},
-                    onSelectionChanged: _busy
-                        ? null
-                        : (s) => setState(() {
-                              _mode = s.first;
-                              _error = null;
-                            }),
-                  ),
+                // Sign-in / Create account segmented control. expandedInsets
+                // forces both segments to share the available width equally,
+                // working around SegmentedButton's quirk of sizing unselected
+                // segments to the selected one's intrinsic width (which clipped
+                // the longer "Create account" label on first paint).
+                SegmentedButton<_Mode>(
+                  expandedInsets: EdgeInsets.zero,
+                  segments: const [
+                    ButtonSegment(
+                      value: _Mode.signIn,
+                      label: Text('Sign in'),
+                    ),
+                    ButtonSegment(
+                      value: _Mode.createAccount,
+                      label: Text('Create account'),
+                    ),
+                  ],
+                  selected: {_mode},
+                  onSelectionChanged: _busy
+                      ? null
+                      : (s) => setState(() {
+                            _mode = s.first;
+                            _error = null;
+                          }),
                 ),
                 const SizedBox(height: 24),
 
@@ -325,9 +327,8 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 }
 
-/// Google sign-in button. Visually consistent with Material 3 OutlinedButton
-/// but with the multi-color "G" mark that Google's brand guidelines require
-/// for any "Sign in with Google" affordance.
+/// Google sign-in button. Renders the official Google "G" mark from
+/// assets/icon/google_g.svg with Material 3 OutlinedButton styling.
 class _GoogleButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String label;
@@ -342,7 +343,11 @@ class _GoogleButton extends StatelessWidget {
       height: 48,
       child: OutlinedButton.icon(
         onPressed: onPressed,
-        icon: const _GoogleGlyph(size: 18),
+        icon: SvgPicture.asset(
+          'assets/icon/google_g.svg',
+          width: 18,
+          height: 18,
+        ),
         label: Text(
           label,
           style: theme.textTheme.titleSmall?.copyWith(
@@ -356,94 +361,9 @@ class _GoogleButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
         ),
       ),
     );
   }
-}
-
-/// The Google "G" mark — drawn as a CustomPaint so we don't ship an asset.
-/// Approximation of Google's official mark; close enough for a sign-in
-/// affordance without bundling an external image. Colors match Google's
-/// brand sheet (blue 4285F4, green 34A853, yellow FBBC05, red EA4335).
-class _GoogleGlyph extends StatelessWidget {
-  final double size;
-  const _GoogleGlyph({this.size = 18});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: size,
-      height: size,
-      child: CustomPaint(painter: _GoogleGlyphPainter()),
-    );
-  }
-}
-
-class _GoogleGlyphPainter extends CustomPainter {
-  static const _blue = Color(0xFF4285F4);
-  static const _green = Color(0xFF34A853);
-  static const _yellow = Color(0xFFFBBC05);
-  static const _red = Color(0xFFEA4335);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final w = size.width;
-    final h = size.height;
-    final cx = w / 2;
-    final cy = h / 2;
-    final r = w / 2;
-    final innerR = r * 0.42;
-    final p = Paint()..style = PaintingStyle.fill;
-
-    void wedge(double startDeg, double sweepDeg, Color c) {
-      p.color = c;
-      final start = startDeg * math.pi / 180;
-      final sweep = sweepDeg * math.pi / 180;
-      final path = Path()
-        ..moveTo(cx + innerR * math.cos(start), cy + innerR * math.sin(start))
-        ..lineTo(cx + r * math.cos(start), cy + r * math.sin(start))
-        ..arcToPoint(
-          Offset(
-            cx + r * math.cos(start + sweep),
-            cy + r * math.sin(start + sweep),
-          ),
-          radius: Radius.circular(r),
-          clockwise: true,
-        )
-        ..lineTo(
-          cx + innerR * math.cos(start + sweep),
-          cy + innerR * math.sin(start + sweep),
-        )
-        ..arcToPoint(
-          Offset(
-            cx + innerR * math.cos(start),
-            cy + innerR * math.sin(start),
-          ),
-          radius: Radius.circular(innerR),
-          clockwise: false,
-        )
-        ..close();
-      canvas.drawPath(path, p);
-    }
-
-    // 4 arcs forming the ring. (Approximates the Google G; not pixel-exact.)
-    wedge(-130, 70, _red);
-    wedge(-60, 60, _yellow);
-    wedge(0, 70, _green);
-    wedge(70, 145, _blue);
-
-    // Horizontal slot of the "G".
-    final barRect = Rect.fromLTWH(cx - 0.5, cy - h * 0.08, r * 1.05, h * 0.16);
-    p.color = _blue;
-    canvas.drawRect(barRect, p);
-    p.color = Colors.white;
-    canvas.drawRect(
-      Rect.fromLTWH(cx + r * 0.45, cy - h * 0.4, r * 0.6, h * 0.32),
-      p,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
