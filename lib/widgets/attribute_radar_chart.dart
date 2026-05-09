@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../data/claa_data.dart';
+import '../data/attributes_data.dart';
 import '../models/assessment.dart';
 
 /// Radar chart showing one assessment's score per attribute on a fixed

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/claa_data.dart';
+import '../data/attributes_data.dart';
 import '../services/assessment_service.dart';
 import '../services/auth_service.dart';
 import '../widgets/attribute_icon.dart';

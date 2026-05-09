@@ -1,4 +1,4 @@
-import '../data/claa_data.dart';
+import '../data/attributes_data.dart';
 
 /// A single scripture reference + its deep-link path on churchofjesuschrist.org.
 /// A question may have multiple of these — render one chip per ref.

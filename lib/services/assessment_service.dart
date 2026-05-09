@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
-import '../data/claa_data.dart';
+import '../data/attributes_data.dart';
 import '../models/assessment.dart';
 
 enum ReminderCadence { off, weekly, monthly }

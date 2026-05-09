@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-import '../data/claa_data.dart';
+import '../data/attributes_data.dart';
 import '../models/assessment.dart';
 import '../models/attribute.dart';
 import '../services/auth_service.dart';

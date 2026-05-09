@@ -1,4 +1,4 @@
-import '../data/claa_data.dart';
+import '../data/attributes_data.dart';
 
 class Assessment {
   final String id;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/claa_data.dart';
+import '../data/attributes_data.dart';
 
 /// Five-step segmented selector that maps to PMG's 1–5 frequency scale.
 ///
