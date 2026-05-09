@@ -159,10 +159,10 @@ The `.aab` is what the Play Store wants.
 
 The release signing config in `android/app/build.gradle.kts` reads
 `android/key.properties` (gitignored), which points to a keystore at
-`C:\Users\tyler\.android-keys\liken-upload-keystore.jks`.
+`C:\Users\tyler\.android-keys\likehim-upload-keystore.jks`.
 
 The keystore password is stored at
-`C:\Users\tyler\.android-keys\liken-upload-keystore.password.txt`.
+`C:\Users\tyler\.android-keys\likehim-upload-keystore.password.txt`.
 
 > ⚠️ **Back this keystore up.** Once you publish to the Play Store with
 > this key, you cannot change it (unless you opt into Play App Signing
