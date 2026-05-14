@@ -5,6 +5,11 @@ import 'package:intl/intl.dart';
 import '../models/assessment.dart';
 
 /// Line chart of one attribute's score across multiple completed assessments.
+///
+/// The y-axis is pinned to the rating scale: 1 ("Never") at the bottom,
+/// 5 ("Always") at the top. Auto-scaling would make a steady 4.0 look like
+/// a flat line near the ceiling on one screen and near the floor on another
+/// — the same deficit-framing-through-pixels problem the radar chart had.
 class AttributeHistoryChart extends StatelessWidget {
   final List<Assessment> assessments; // chronological, oldest first
   final String attributeId;
@@ -47,7 +52,7 @@ class AttributeHistoryChart extends StatelessWidget {
       height: 200,
       child: LineChart(
         LineChartData(
-          minY: 0,
+          minY: 1,
           maxY: 5,
           minX: 0,
           maxX: (assessments.length - 1).toDouble().clamp(0, double.infinity),
